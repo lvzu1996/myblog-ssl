@@ -2,7 +2,7 @@
 var path = require('path')
 
 var _ossConfig_ = {
-  hostname : 'lvzu.site',
+  hostname : 'world-elite.site',
   region : 'oss-cn-beijing',
   bucket : 'myblog-oss',
 
