@@ -123,7 +123,7 @@ export default {
   data() {
     return {
       //请求主机地址
-      hostname: '47.94.129.112',
+      hostname: 'world-elite.site',
       //进行到的步骤
       step: 2,
 

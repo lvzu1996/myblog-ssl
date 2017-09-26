@@ -126,7 +126,7 @@ export default {
       user_msg_showing: false,
       //表示输入手机验证码的框显不显示
       verify_code_show: false,
-      hostname:'47.94.129.112',
+      hostname:'world-elite.site',
     }
   },
 

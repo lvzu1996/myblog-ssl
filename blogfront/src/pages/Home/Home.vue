@@ -85,7 +85,7 @@ export default {
       picList: [],
       bg_url:'',
       overlay_url:'',
-      hostname:'47.94.129.112',
+      hostname:'world-elite.site',
     }
   },
 
