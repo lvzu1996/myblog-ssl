@@ -3,12 +3,12 @@
     <div class="mine-home" :style="{backgroundImage: 'url(' + bg_url + ')'}">
       <div class="overlay" :style="{backgroundImage: 'url(' + overlay_url + ')'}">
 
-        <!-- <form action="http://www.baidu.com/baidu" target="_blank">
+        <!-- <form action="https://www.baidu.com/baidu" target="_blank">
           <table bgcolor="#FFFFFF">
             <tr>
               <td>
                 <input name=tn type=hidden value=baidu>
-                <a><img src="https://gss0.bdstatic.com/70cFsjip0QIZ8tyhnq/img/logo-80px.gif" ></a>
+                <a><img src="httpss://gss0.bdstatic.com/70cFsjip0QIZ8tyhnq/img/logo-80px.gif" ></a>
                 <input type=text name=word size=30>
                 <input type="submit" value="百度搜索">
               </td>
@@ -116,7 +116,7 @@ export default {
     setInterval(function () {
       t.now_time = moment().format('h:mm:ss a')
     },1000)
-    fetch(`http://${t.hostname}/api/get_pic_urls`, {
+    fetch(`https://${t.hostname}/api/get_pic_urls`, {
         method: 'get',
       })
       .then(re => re.json())
@@ -197,7 +197,7 @@ export default {
       setTimeout(function () {
           t.comment_interval_flag = true;
       },5000)
-      fetch(`http://${t.hostname}/api/comment?user=${localStorage.username}&comment=${e.target.value}`, {
+      fetch(`https://${t.hostname}/api/comment?user=${localStorage.username}&comment=${e.target.value}`, {
           method: 'get',
         })
         .then(re => re.json())
@@ -246,7 +246,7 @@ export default {
     },
     _submitChat:function () {
       const t = this
-      fetch(`http://www.tuling123.com/openapi/api?key=add0513d906d4febabfd0ce2a42102ef&info=${t.chat_str}&userid=${localStorage.username}`,{
+      fetch(`https://www.tuling123.com/openapi/api?key=add0513d906d4febabfd0ce2a42102ef&info=${t.chat_str}&userid=${localStorage.username}`,{
       })
       .then(re => re.json())
       .then(re => {
