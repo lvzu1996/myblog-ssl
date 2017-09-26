@@ -37,7 +37,8 @@ var asyncUpload = async function (username,t,imgFile,){
         bucket: ossConfig.bucket,
         accessKeyId:credentials.AccessKeyId,
         accessKeySecret:credentials.AccessKeySecret,
-        stsToken :credentials.SecurityToken
+        stsToken :credentials.SecurityToken,
+        secure:true
       });
     })
 
