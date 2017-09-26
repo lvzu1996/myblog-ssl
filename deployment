@@ -1,0 +1,18 @@
+#!/bin/bash
+
+echo "lvzu的自动部署开始"
+
+cd  blogfront
+
+cnpm install
+npm run build
+
+cd ..
+
+# python manage.py migrate
+python manage.py collectstatic
+
+
+if [[ $?=0 ]]; then echo -e "\nsuccess!"
+  else echo "failed!"
+fi

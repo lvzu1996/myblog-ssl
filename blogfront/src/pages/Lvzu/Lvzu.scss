@@ -1,0 +1,191 @@
+#lvzu-self-intro{
+  margin: 0 auto;
+  text-align: center;
+
+}
+
+.top{
+  // background-color: #fff;
+  height: 15rem;
+  background-image: url('http://ovfey247f.bkt.clouddn.com/about-me/top-bg.jpg');
+  background-size:cover;
+  background-repeat: no-repeat;
+}
+
+.lvzu-overlay{
+  position: 0 !important;
+  display: block;
+  position: absolute;
+  width: 100%;
+  background-size: 100%;
+  height: 15rem;
+}
+
+
+#profile-text{
+  font-size: 1.2rem;
+  position: absolute;
+  top: 1.5rem;
+  left:50%;
+  margin-left: -1.95rem;
+  letter-spacing:0.05rem;
+  color: #fff;
+}
+
+#pro-icon{
+  width: 1.38rem;
+  height: 1.38rem;
+  position: absolute;
+  left: 5%;
+  top: 1.5rem;
+}
+
+#pro-dian{
+  width: 1.38rem;
+  height: 1.38rem;
+  position: absolute;
+  right: 5%;
+  top: 1.5rem;
+}
+
+
+  #gender-icon{
+    position: absolute;
+    top:10rem;
+    left: 13.2rem;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+
+
+  #headpic{
+    position: absolute;
+    top:4.32rem;
+    left: 9.2rem;
+    height: 5rem;
+    width: 5rem;
+    border-radius: 50%;
+  }
+
+
+  #myname{
+    position: absolute;
+    top: 10.1rem;
+    left: 10.6rem;
+    color: #fff;
+  }
+
+  #gerenxinxi-icon{
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    top: 12rem;
+    left: 4.25rem;
+  }
+
+  #zhaopian-icon{
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    top: 12rem;
+    left: 10.75rem;
+  }
+
+  #dongtai-icon{
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    top: 12rem;
+    left: 17.25rem;
+  }
+
+
+
+.bottom{
+  height: 30rem;
+  display: flex;
+  flex-direction: column;
+  background-image: -webkit-linear-gradient(top left, #C2FFD8 10%, #465EFB 100%);
+  background-image: -o-linear-gradient(top left, #C2FFD8 10%, #465EFB 100%);
+  background-image: linear-gradient(to bottom right, #C2FFD8 10%, #465EFB 100%);
+}
+
+.bottom-single{
+  height: 5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.left-single{
+  height: inherit;
+  margin-left: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bot-left-text{
+  opacity: .75;
+  padding-left: 0.75rem;
+  font-style: italic;
+  font-size: .9rem;
+}
+
+.botton-icon{
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+    opacity: .75;
+    width: 1.8rem;
+    height: 1.8rem;
+}
+
+.right-single{
+  height: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: .9;
+  font-size: 1rem;
+  margin-right: 2.25rem;
+  font-weight: bold;
+  color: #f6f4f4;
+}
+
+
+//导入的iconfont样式
+.icon {
+    width: 1.56rem;
+    height: 1.56rem;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
+
+
+#picture{
+  display: flex;
+  flex-direction:row;
+  flex-wrap: wrap;
+}
+
+.single-pic-div{
+width: 100%;
+  height: 12rem;
+}
+
+.single-pic{
+ width: 100%;
+ height: 12rem;
+ border-top: 2px solid #fff;
+}
+
+.fade-enter-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0
+}
