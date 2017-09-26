@@ -198,7 +198,7 @@ export default {
       //做判断处理
 
       //判断通过后
-      fetch(`http://${t.hostname}/api/set_detailInfo`, {
+      fetch(`https://${t.hostname}/api/set_detailInfo`, {
           method: 'post',
           body: 'username=' + localStorage.username + '&name=' + t.form.name + '&address=' + t.form.address + '&birthday=' + t.form.birthday + '&gender=' + t.form.gender + '&school=' + t.form.school + '&headpic_url=' + '',
           headers: {

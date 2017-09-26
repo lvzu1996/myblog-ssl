@@ -23,7 +23,7 @@ var asyncUpload = async function (username,t,imgFile,){
   var client,credentials
 
   //从服务器请求临时accessKey，accessSecrete和stsToken
-  await fetch(`http://${ossConfig.hostname}/api/getSTStoken?session_name=${username}`, {
+  await fetch(`https://${ossConfig.hostname}/api/getSTStoken?session_name=${username}`, {
       method: 'get',
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
@@ -52,7 +52,7 @@ var asyncUpload = async function (username,t,imgFile,){
      if(re.res.status === 200){
        //从返回的数据中获取头像地址并储存至服务器数据库中
        t.form.headpic_url = re.res.requestUrls[0]
-       fetch(`http://${t.hostname}/api/set_detailInfo`, {
+       fetch(`https://${t.hostname}/api/set_detailInfo`, {
            method: 'post',
            body: 'username=' + localStorage.username + '&name=' + '' + '&address=' + '' + '&birthday=' + '' + '&gender=' + '' + '&school=' + '' + '&headpic_url=' + t.form.headpic_url,
            headers: {
