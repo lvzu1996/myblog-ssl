@@ -246,7 +246,7 @@ export default {
     },
     _submitChat:function () {
       const t = this
-      fetch(`https://openapi.tuling123.com/openapi/api?key=add0513d906d4febabfd0ce2a42102ef&info=${t.chat_str}&userid=${localStorage.username}`,{
+      fetch(`https://openapi.tuling123.com/openapi/api/v2?key=add0513d906d4febabfd0ce2a42102ef&info=${t.chat_str}&userid=${localStorage.username}`,{
       })
       .then(re => re.json())
       .then(re => {
