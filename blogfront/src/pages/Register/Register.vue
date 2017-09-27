@@ -114,6 +114,7 @@ export default {
       register_username: '',
       register_password: '',
       register_verifycode: '',
+      Vcode:'',
       //是否是登录页面 false 为注册页面
       isLog: false,
       //登录界面,是否记住用户名密码选项 false为未打钩
@@ -177,11 +178,15 @@ export default {
       this.register_password = '';
       this.register_verifycode = '';
     },
-
+    _mobiTest:function (pn) {
+      var mobiReg = new RegExp(/^1(3|4|5|7|8)\d{9}$/)
+      return mobiReg.test(pn)
+    },
     _login: function() {
       const t = this
-      if(t.log_username.length!=11){
-        this.$message.error('您的手机号输入有误，请重新输入');
+      
+      if(!t._mobiTest(t.log_username)){
+        this.$message.error('您的手机号输入有误！请重新输入！');
         t.log_username = ''
         return
       }
@@ -222,12 +227,11 @@ export default {
     },
     _verify:function () {
       const  t = this
-      if(t.register_username.length!=11){
+      if(!t._mobiTest(t.register_username)){
         if(t.register_username.length == 0){
           return
         }
-        this.$message.error('您的手机号输入有误，请重新输入');
-        t.register_username = ''
+        this.$message.error('您的手机号输入有误，请重新输入!');
         return
       }
       $(".main-part").css("height", "600px");
@@ -236,27 +240,34 @@ export default {
     },
     _getVerifyCode: function() {
       const t = this
-      if (t.register_username.length != 11) {
-        this.$message.error('您的手机号输入有误，请重新输入');
+      if (!t._mobiTest(t.register_username)) {
+        this.$message.error('您的手机号输入有误，请重新输入!');
         t.register_username = ''
         return
       }
       setTimeout(function() {
-        t.register_verifycode = myTools._generateVCode()
+        t.Vcode = myTools._generateVCode()
+        t.register_verifycode = t.Vcode
       }, 3000)
     },
     _register: function() {
       const t = this
       if (t.register_nickname.length < 7) {
-        this.$message.error('您输入的昵称过短，长度应大于6');
+        t.$message.error('您输入的昵称过短，长度应大于6');
         return
       }
-      if (t.register_username.length != 11) {
-        this.$message.error('您的手机号输入有误，请重新输入');
+      if (!t._mobiTest(t.register_username)) {
+        t.$message.error('您的手机号输入有误，请重新输入');
         return
       }
-      if (t.register_verifycode.length != 6) {
-        this.$message.error('您的验证码有误,请重新获取');
+      if (t.Vcode != t.register_verifycode) {
+        t.$message.error('您的验证码有误,请重新获取');
+        t.register_verifycode = ''
+        return
+      }
+      if(t.register_password.length<6){
+        this.$message.error('您的密码过短,请重新输入');
+        t.register_password = ''
         return
       }
       fetch(`https://${t.hostname}/api/account_register`, {

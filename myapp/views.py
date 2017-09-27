@@ -11,6 +11,7 @@ import hashlib
 import json
 import urllib
 import sys
+import re
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
@@ -48,13 +49,30 @@ def add_pic_urls(request):
 @require_http_methods(["POST"])
 def account_register(request):
     response = {}
+    _username = request.POST['username']
+    _password = request.POST['password']
+    _nickname = request.POST['nickname']
+    p2 = re.compile('^0\d{2,3}\d{7,8}$|^1[358]\d{9}$|^147\d{8}')
+    phonematch = p2.match(_username)    
+    if(not phonematch):
+        response['msg'] = 'username invalid'
+        response['error_num'] = 0
+        return JsonResponse(response)
+    if(len(_password) < 6):
+        response['msg'] = 'password too short'
+        response['error_num'] = 0
+        return JsonResponse(response)
+    if(len(_nickname) < 6):
+        response['msg'] = 'nickname too short'
+        response['error_num'] = 0
+        return JsonResponse(response)
     try:
-        hasAccount = Accounts.objects.filter(username=request.POST['username'])
+        hasAccount = Accounts.objects.filter(username=_username)
         if(hasAccount):
             response['msg'] = 'registerd username'
             response['error_num'] = 0
             return JsonResponse(response)
-        account = Accounts(username=request.POST['username'],password=request.POST['password'],nickname=request.POST['nickname'])
+        account = Accounts(username=_username,password=_password,nickname=_nickname)
         account.save()
         response['msg'] = 'success'
         response['error_num'] = 0
@@ -70,9 +88,9 @@ def account_register(request):
 def account_login(request):
     response = {}
     try:
-        hasAccount = Accounts.objects.get(username=request.POST['username'])
+        hasAccount = Accounts.objects.get(username=_username)
         if(hasAccount):
-            if(hasAccount.password==hashlib.sha1(request.POST['password']+request.POST['username']).hexdigest()):
+            if(hasAccount.password==hashlib.sha1(_password+_username).hexdigest()):
                 response['msg'] = 'success'
                 response['error_num'] = 0
                 return JsonResponse(response)
