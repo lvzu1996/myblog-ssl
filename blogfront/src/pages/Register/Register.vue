@@ -295,9 +295,9 @@ export default {
               localStorage.username = t.register_username
               t.$router.push({ path:'/register/detailInfo' })
             },1000)
-          } else if (re.msg == 'registerd username') {
+          } else{
             this.$message({
-              message: '该用户名已被注册',
+              message: re.msg,
               type: 'warning'
             });
             t.register_username = ''

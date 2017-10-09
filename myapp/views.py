@@ -53,23 +53,25 @@ def account_register(request):
     _password = request.POST['password']
     _nickname = request.POST['nickname']
     p2 = re.compile('^0\d{2,3}\d{7,8}$|^1[358]\d{9}$|^147\d{8}')
+    pswd2 = re.compile('^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$')
     phonematch = p2.match(_username)    
+    pswdmatch = pswd2.match(_password)
     if(not phonematch):
         response['msg'] = 'username invalid'
         response['error_num'] = 0
         return JsonResponse(response)
-    if(len(_password) < 6):
-        response['msg'] = 'password too short'
+    if(not pswdmatch):
+        response['msg'] = 'password invalid'
         response['error_num'] = 0
         return JsonResponse(response)
     if(len(_nickname) < 6):
-        response['msg'] = 'nickname too short'
+        response['msg'] = 'nickname invalid'
         response['error_num'] = 0
         return JsonResponse(response)
     try:
         hasAccount = Accounts.objects.filter(username=_username)
         if(hasAccount):
-            response['msg'] = 'registerd username'
+            response['msg'] = '该用户名已被注册'
             response['error_num'] = 0
             return JsonResponse(response)
         account = Accounts(username=_username,password=_password,nickname=_nickname)
