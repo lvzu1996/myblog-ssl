@@ -191,9 +191,9 @@ export default {
     },11000)
 
     setTimeout(() =>  {
-      let type = 0;
-      let addFlag = true;
-      let pauseFlag = false;
+      let type = 0,
+          addFlag = true,
+          pauseFlag = false
       temp = 0;
 
       var interval = setInterval(() =>  {

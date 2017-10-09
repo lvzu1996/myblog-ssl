@@ -182,6 +182,10 @@ export default {
       var mobiReg = new RegExp(/^1(3|4|5|7|8)\d{9}$/)
       return mobiReg.test(pn)
     },
+    _passwordTest:function (pswd) {
+      var pswdReg = new RegExp(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/)
+      return pswdReg.test(pswd)
+    },
     _login: function() {
       const t = this
       
@@ -248,7 +252,7 @@ export default {
       setTimeout(function() {
         t.Vcode = myTools._generateVCode()
         t.register_verifycode = t.Vcode
-      }, 3000)
+      }, 1000)
     },
     _register: function() {
       const t = this
@@ -265,9 +269,10 @@ export default {
         t.register_verifycode = ''
         return
       }
-      if(t.register_password.length<6){
-        this.$message.error('您的密码过短,请重新输入');
+      if(!t._passwordTest(t.register_password)){
+        this.$message.error('密码需长度为8-16，且同时包含数字和大小写，不能有特殊字符');
         t.register_password = ''
+        t.register_verifycode = ''
         return
       }
       fetch(`https://${t.hostname}/api/account_register`, {
@@ -295,6 +300,9 @@ export default {
               message: '该用户名已被注册',
               type: 'warning'
             });
+            t.register_username = ''
+            t.register_verifycode = ''
+            t.register_password = ''
           }
         })
     },

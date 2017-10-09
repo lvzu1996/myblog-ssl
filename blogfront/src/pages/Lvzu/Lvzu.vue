@@ -33,13 +33,13 @@
       </div>
 
       <div class="choose-icons">
-        <svg class="icon" id="gerenxinxi-icon" aria-hidden="true" @click="_showInfo()">
+        <svg class="icon" id="gerenxinxi-icon" aria-hidden="true" @click="_switchShow(0)">
           <use xlink:href="#icon-gerenxinxi"></use>
         </svg>
-        <svg class="icon" id="zhaopian-icon" aria-hidden="true" @click="_showPic()">
+        <svg class="icon" id="zhaopian-icon" aria-hidden="true" @click="_switchShow(1)">
           <use xlink:href="#icon-tupian"></use>
         </svg>
-        <svg class="icon" id="dongtai-icon" aria-hidden="true" @click="_showTrends()">
+        <svg class="icon" id="dongtai-icon" aria-hidden="true" @click="_switchShow(2)">
           <use xlink:href="#icon-iconquan04"></use>
         </svg>
       </div>
@@ -49,7 +49,7 @@
     <div class="bottom">
 
     <transition name="fade">
-      <div id="info" v-if="showInfo">
+      <div id="info" v-if="showFlags[0]">
         <div class="bottom-single">
           <div class="left-single">
             <svg class="botton-icon"  aria-hidden="true">
@@ -121,7 +121,7 @@
 
 
     <transition name="fade">
-      <div id="picture" v-if="showPic">
+      <div id="picture" v-if="showFlags[1]">
         <div class="single-pic-div" v-for="elem,index in picUrls" :key="elem.key">
           <img :src="picUrls[index]" class="single-pic" >
         </div>
@@ -140,29 +140,17 @@ export default {
 
   data(){
     return {
-      showInfo:true,
-      showPic:false,
-      showTrends:false,
+      showFlags:[true,false,false],
       picUrls:['http://ovfey247f.bkt.clouddn.com/about-me/pic1.jpg','http://ovfey247f.bkt.clouddn.com/about-me/pic2.jpg','http://ovfey247f.bkt.clouddn.com/about-me/pic3.jpg','http://ovfey247f.bkt.clouddn.com/about-me/pic4.jpg','http://ovfey247f.bkt.clouddn.com/about-me/pic5.jpg','http://ovfey247f.bkt.clouddn.com/about-me/pic6.jpg'],
     }
   },
 
   methods: {
-    _showInfo() {
-      this.showInfo = true
-      this.showPic = false
-      this.showTrends = false
-    },
-    _showPic(){
-      this.showInfo = false
-      this.showPic = true
-      this.showTrends = false
-    },
-    _showTrends(){
-      this.showInfo = false
-      this.showPic = false
-      this.showTrends = true
-    },
+    _switchShow(n){
+      this.showFlags = new Array(3).fill(false)
+      this.showFlags[n] = true
+      return
+    }
   },
 
   beforeMount() {
