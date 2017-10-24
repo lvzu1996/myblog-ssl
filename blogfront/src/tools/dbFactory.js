@@ -41,13 +41,13 @@ function Request(config,body) {
           method: 'post',
           body: param(body)
       })
-    }else{object-param
+    }else{
       url += `?${param(body)}`
     }
 
     return new Promise((resolve, reject) => {
-        fetch(url, option).then(data => data.json()).then(({success,data,...err}) => {
-            if (success) {
+        fetch(url, option).then(data => data.json()).then(({msg,data,...err}) => {
+            if (msg == 'success') {
                 resolve(data)
             } else {
                 reject({

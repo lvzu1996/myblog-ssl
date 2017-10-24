@@ -21,12 +21,19 @@
 </template>
 
 <script>
+import DB from '../../tools/db.js'
 export default {
   name: 'hello',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  mounted() {
+    //do something after mounting vue instance
+    DB.api.pic().then(re => {
+      console.log(re);
+    })
   }
 }
 </script>
