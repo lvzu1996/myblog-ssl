@@ -3,19 +3,6 @@
     <div class="mine-home" :style="{backgroundImage: 'url(' + bg_url + ')'}">
       <div class="overlay" :style="{backgroundImage: 'url(' + overlay_url + ')'}">
 
-        <!-- <form action="https://www.baidu.com/baidu" target="_blank">
-          <table bgcolor="#FFFFFF">
-            <tr>
-              <td>
-                <input name=tn type=hidden value=baidu>
-                <a><img src="httpss://gss0.bdstatic.com/70cFsjip0QIZ8tyhnq/img/logo-80px.gif" ></a>
-                <input type=text name=word size=30>
-                <input type="submit" value="百度搜索">
-              </td>
-            </tr>
-          </table>
-          </form> -->
-
         <transition name="fade">
           <div v-if="show_welcome" class="welcome1 move-lvzu">
             Hello, welcome !
