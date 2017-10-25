@@ -46,16 +46,16 @@ function Request(config,body) {
     }
 
     return new Promise((resolve, reject) => {
-        fetch(url, option).then(data => data.json()).then(({msg,data,...err}) => {
+        fetch(url, option)
+        .then(re => re.json())
+        .then(({msg,data,error_num}) => {
             if (msg == 'success') {
                 resolve(data)
             } else {
                 reject({
-                  success,data,...err
+                  msg,error_num
                 })
             }
-        }).catch(()=>reject({
-          errorMsg:'请求失败',
-        }))
+        })
     })
 }

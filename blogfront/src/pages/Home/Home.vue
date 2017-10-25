@@ -52,6 +52,8 @@
 
 <script>
 import moment from 'moment'
+import DB from '../../tools/db.js'
+
 export default {
   name: 'home',
   data () {
@@ -103,11 +105,10 @@ export default {
     setInterval(function () {
       t.now_time = moment().format('h:mm:ss a')
     },1000)
-    fetch(`https://${t.hostname}/api/get_pic_urls`, {
-        method: 'get',
-      })
-      .then(re => re.json())
-      .then(re => {
+    
+    DB.api.getPicUrls()
+    .then((re => {
+      
         for(let i of re.list){
           t.picList.push({
             pic_name:i.fields.pic_name,
@@ -126,8 +127,11 @@ export default {
           $('.mine-home').css("background-position",'center')
           $('.mine-home').css('height',$(window).height())
           $('.overlay').css('height',$(window).height())
-        };
-      })
+        };  
+    }),//resolve db返回data
+      (err => {console.log(err)})//reject db返回msg和error_num
+    )
+
 
       if(localStorage.isVisited == "true" && localStorage.username){
         t.show_welcome = false;
