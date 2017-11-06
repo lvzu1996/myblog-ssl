@@ -22,45 +22,65 @@ const Register = () => import('@/pages/Register/Register')
 const Lvzu = () => import('@/pages/Lvzu/Lvzu')
 const Test = () => import('@/pages/Test/Test')
 const DetailInfo = () => import('@/pages/DetailInfo/DetailInfo')
+const errorPage = () => import('@/pages/404.vue')
 
 Vue.use(Router)
 
-export default new Router({
-  routes: [
-    {
-      path: '/hello',
-      name: 'Hello',
-      component: Hello
-    },
-    {
-      path:'/',
-      name:'Home',
-      component : Home
-    },
-    {
-      path:'/register',
-      name:'Register',
-      component:Register
-    },
-    {
-      path:'/main',
-      name:'Main',
-      component:Main
-    },
-    {
-      path:'/test',
-      name:'Test',
-      component:Test
-    },
-    {
-      path:'/about-me',
-      name:'Lvzu',
-      component:Lvzu
-    },
-    {
-      path:'/register/detailInfo',
-      name:'detailInfo',
-      component:DetailInfo
-    },
-  ]
+var _routes = [
+  {
+    path: '/hello',
+    name: 'Hello',
+    component: Hello
+  },
+  {
+    path:'/',
+    name:'WE电子竞技俱乐部',
+    component : Home
+  },
+  {
+    path:'/register',
+    name:'账号注册',
+    component:Register
+  },
+  {
+    path:'/main',
+    name:'Main',
+    component:Main
+  },
+  {
+    path:'/test',
+    name:'测试页面',
+    component:Test
+  },
+  {
+    path:'/about-me',
+    name:'关于lvzu',
+    component:Lvzu
+  },
+  {
+    path:'/register/detailInfo',
+    name:'详细信息填写',
+    component:DetailInfo
+  },
+  {
+    path: '*',
+    redirect: '/404',
+    hidden:true
+  },
+  {
+    path: '/404',
+    name:'页面出错了~',
+    component:errorPage
+  },
+]
+
+var router = new Router({
+    routes: _routes
 })
+
+//绑定页面title
+router.afterEach((to, from, next) => {
+  document.title = to.name;
+})
+
+export default router

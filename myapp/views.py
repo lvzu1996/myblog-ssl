@@ -22,8 +22,8 @@ def get_pic_urls(request):
     try:
         pictures = Pictures.objects.filter()
         list = json.loads(serializers.serialize("json", pictures))
-        response['data'] = {'list':list,'length':len(list)}
         response['msg'] = 'success'
+        response['data'] = {'list':list,'length':len(list)}
         response['error_num'] = 0
     except  Exception,e:
         response['msg'] = str(e)
