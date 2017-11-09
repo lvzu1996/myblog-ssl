@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
+import store from './store'
+
 // import VueResource from 'vue-resource'
 import 'element-ui/lib/theme-default/index.css'
 // import lvment from 'lvment'
@@ -16,7 +18,8 @@ Vue.use(ElementUI)
 
 new Vue({
   el: '#app',
-  router,
+  router,//引用vue-router
+  store,//引用vuex
   template: '<App/>',
   components: { App }
 })
