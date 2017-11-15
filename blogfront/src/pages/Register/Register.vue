@@ -142,6 +142,7 @@ export default {
         return;
       }
     },
+
     //点击注册
     setReg: function() {
       if (this.isLog) {
@@ -176,28 +177,12 @@ export default {
         return
       }
 
-     
-      // DB.api.accountLogin({
-      //   username:t.log_username,
-      //   password:t.log_password
-      // })
-      // .then(re => {
-      //   console.log(re)
-      // })
-      //  debugger
-
-      fetch(`https://${t.hostname}/api/account_login`, {
-          method: 'post',
-          body: 'username=' + t.log_username + '&password=' + t.log_password,
-          headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-        })
-        .then(re => re.json())
-        .then(re => {
-          if(re.msg == 'success'){
-            this.$message({
+      DB.api.accountLogin({
+        username:t.log_username,
+        password:t.log_password
+      })
+      .then((re =>{
+        this.$message({
               message: '登录成功！',
               type: 'success'
             });
@@ -207,11 +192,13 @@ export default {
             },2500)
 
             return
-          }else if (re.msg =='passwordError') {
+      }),(re => {
+        if (re.msg =='passwordError') {
             this.$message.error('账号密码有误，请重新输入');
             t.log_password = ''
             return
-          }else if (re.msg == 'notRegisterd') {
+          }
+        if (re.msg == 'notRegisterd') {
             this.$message({
               message: '此用户名未注册，请先注册',
               type: 'warning'
@@ -219,7 +206,8 @@ export default {
             t.setReg();
             return
           }
-        })
+      }))
+
     },
     _verify:function () {
       const  t = this
@@ -267,18 +255,14 @@ export default {
         t.register_verifycode = ''
         return
       }
-      fetch(`https://${t.hostname}/api/account_register`, {
-          method: 'post',
-          body: 'username=' + t.register_username + '&password=' + t.register_password + '&nickname=' + t.register_nickname,
-          headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-        })
-        .then(re => re.json())
-        .then(re => {
-          if (re.msg == 'success') {
-            this.$message({
+
+      DB.api.accountRegister({
+        username:t.register_username,
+        password:t.register_password,
+        nickname:t.register_nickname
+      })
+      .then((re => {
+        this.$message({
               message: '恭喜您，注册成功！',
               type: 'success'
             });
@@ -287,16 +271,15 @@ export default {
               localStorage.username = t.register_username
               t.$router.push({ path:'/register/detailInfo' })
             },1000)
-          } else{
-            this.$message({
+      }),(re => {
+        this.$message({
               message: re.msg,
               type: 'warning'
             });
             t.register_username = ''
             t.register_verifycode = ''
             t.register_password = ''
-          }
-        })
+      }))
     },
   },
 }

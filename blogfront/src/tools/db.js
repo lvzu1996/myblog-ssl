@@ -13,5 +13,9 @@ DBF.create('api', {
         url       : prefix+'/api/account_login',
         method    :'POST',
     },
+    accountRegister: {
+        url       : prefix+'/api/account_register',
+        method    :'POST',
+    },
     
 });
