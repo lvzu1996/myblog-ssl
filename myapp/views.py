@@ -89,6 +89,8 @@ def account_register(request):
 @csrf_exempt
 @require_http_methods(["POST"])
 def account_login(request):
+    _username = request.POST['username']
+    _password = request.POST['password']
     response = {}
     try:
         hasAccount = Accounts.objects.get(username=_username)

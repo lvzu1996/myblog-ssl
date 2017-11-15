@@ -99,13 +99,13 @@
 
 <script>
 import myTools from '../../tools/myTools'
+import DB from '../../tools/db.js'
+
 export default {
 
   name: 'Register',
   data() {
     return {
-      picList: [],
-      bg_url:'',
       //绑定登录界面的input值
       log_username: '',
       log_password: '',
@@ -129,25 +129,6 @@ export default {
       verify_code_show: false,
       hostname:'world-elite.site',
     }
-  },
-
-  mounted: function() {
-    const t = this
-    fetch(`https://${t.hostname}/api/get_pic_urls`, {
-        method: 'get',
-      })
-      .then(re => re.json())
-      .then(re => {
-        for(let i of re.list){
-          t.picList.push({
-            pic_name:i.fields.pic_name,
-            pic_url:i.fields.pic_url
-          })
-          if(i.fields.pic_name == 'background'){
-            t.bg_url = i.fields.pic_url
-          }
-        }
-      })
   },
 
   methods: {
@@ -194,6 +175,17 @@ export default {
         t.log_username = ''
         return
       }
+
+     
+      // DB.api.accountLogin({
+      //   username:t.log_username,
+      //   password:t.log_password
+      // })
+      // .then(re => {
+      //   console.log(re)
+      // })
+      //  debugger
+
       fetch(`https://${t.hostname}/api/account_login`, {
           method: 'post',
           body: 'username=' + t.log_username + '&password=' + t.log_password,

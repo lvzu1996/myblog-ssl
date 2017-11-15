@@ -9,4 +9,9 @@ DBF.create('api', {
         url       : prefix+'/api/get_pic_urls',
         method    :'GET',
     },
+    accountLogin: {
+        url       : prefix+'/api/account_login',
+        method    :'POST',
+    },
+    
 });
