@@ -114,6 +114,7 @@ import './cropbox.js'
 import myTools from '../../tools/myTools.js'
 import schools from './schools.js'
 import asyncUpload from '../../module/OssUpload'
+import DB from '../../tools/db.js'
 
 
 export default {
@@ -197,30 +198,30 @@ export default {
       const t = this
       //做判断处理
 
-      //判断通过后
-      fetch(`https://${t.hostname}/api/set_detailInfo`, {
-          method: 'post',
-          body: 'username=' + localStorage.username + '&name=' + t.form.name + '&address=' + t.form.address + '&birthday=' + t.form.birthday + '&gender=' + t.form.gender + '&school=' + t.form.school + '&headpic_url=' + '',
-          headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
+      DB.api.setDetailInfo({
+          username: localStorage.username,
+          name: t.form.name,
+          address: t.form.address,
+          birthday: t.form.birthday,
+          gender: t.form.gender,
+          school: t.form.school,
+          headpic_url: ''
         })
-        .then(re => re.json())
-        .then(re => {
-          if (re.msg == "success") {
+        .then(() => { 
             //表单提交成功
             this.$message({
               message: '信息提交成功！',
               type: 'success'
             });
-            setTimeout(function() {
+            setTimeout(function () {
               t.$router.push({
                 path: '/main'
               })
             }, 1500)
-          }
-        })
+          },
+          () => {}
+        )
+
     },
 
     _isImg() {

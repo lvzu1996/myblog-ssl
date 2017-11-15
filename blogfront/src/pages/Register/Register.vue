@@ -261,7 +261,7 @@ export default {
         password:t.register_password,
         nickname:t.register_nickname
       })
-      .then((re => {
+      .then(re => {
         this.$message({
               message: '恭喜您，注册成功！',
               type: 'success'
@@ -271,7 +271,7 @@ export default {
               localStorage.username = t.register_username
               t.$router.push({ path:'/register/detailInfo' })
             },1000)
-      }),(re => {
+      },re => {
         this.$message({
               message: re.msg,
               type: 'warning'
@@ -279,7 +279,7 @@ export default {
             t.register_username = ''
             t.register_verifycode = ''
             t.register_password = ''
-      }))
+      })
     },
   },
 }

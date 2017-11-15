@@ -57,10 +57,10 @@ span{
 
 .comment-button:hover{
   cursor: pointer;
-  background-color: #123456；
+  background-color: #123456;
 }
 
-@-webkit-keyframes move-lvzu {
+@keyframes move-lvzu {
     0% {
         opacity: 0;
         /*background-color: #EEECE8;*/
@@ -76,7 +76,7 @@ span{
     animation: move-lvzu 1.5s cubic-bezier(.4, 0, .2, 1) 0s 1;
 }
 
-@-webkit-keyframes trans-lvzu {
+@keyframes trans-lvzu {
     0% {
         opacity: 0;
     }

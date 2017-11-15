@@ -54,6 +54,7 @@
 import moment from 'moment'
 import DB from '../../tools/db.js'
 
+
 export default {
   name: 'home',
   data () {
@@ -107,7 +108,7 @@ export default {
     },1000)
     
     DB.api.getPicUrls()
-    .then((re => {
+    .then(re => {
       
         for(let i of re.list){
           t.picList.push({
@@ -128,7 +129,7 @@ export default {
           $('.mine-home').css('height',$(window).height())
           $('.overlay').css('height',$(window).height())
         };  
-    }),//resolve db返回data
+    },//resolve db返回data
       (err => {console.log(err)})//reject db返回msg和error_num
     )
 
@@ -188,20 +189,21 @@ export default {
       setTimeout(function () {
           t.comment_interval_flag = true;
       },5000)
-      fetch(`https://${t.hostname}/api/comment?user=${localStorage.username}&comment=${e.target.value}`, {
-          method: 'get',
+
+      DB.api.sendComment({
+          user: localStorage.username,
+          comment: '123'
         })
-        .then(re => re.json())
-        .then(re => {
-          // console.log(re);
-          // console.log(e.target.value);
-          if(re.msg == 'success'){
+        .then(
+          () => {
             this.$message({
-             showClose: true,
-             message: '评论已成功送到lvzu那边了😂！',
-           });
-          }
-        })
+              showClose: true,
+              message: '评论已成功送到lvzu那边了😂！',
+            })
+          },
+          () => {}
+        )
+
     },
     _submitName:function (e) {
       const t = this

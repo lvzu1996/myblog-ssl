@@ -70,7 +70,6 @@ a {
             margin-top: 10px;
             margin-left: 10px;
             padding-right: 10px;
-            vertical-align: middle;
         }
 
         //输入框样式
@@ -205,7 +204,6 @@ a {
                 margin-top: 10px;
                 margin-left: 10px;
                 padding-right: 20px;
-                vertical-align: middle;
             }
             //输入框样式
             .us-pd-input {
@@ -298,10 +296,10 @@ a {
     overflow: hidden;
 }
 //切换界面时的animation
-@-webkit-keyframes move-lvzu {
+@keyframes move-lvzu {
     0% {
         opacity: 0;
-        -webkit-transform: translateY(20px);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -309,24 +307,24 @@ a {
 }
 //animation的使用类  绑定后会有切换的效果
 .move-lvzu {
-    -webkit-animation: move-lvzu 1.5s cubic-bezier(.4, 0, .2, 1) 0s 1;
+    animation: move-lvzu 1.5s cubic-bezier(.4, 0, .2, 1) 0s 1;
     animation: move-lvzu 1.5s cubic-bezier(.4, 0, .2, 1) 0s 1;
 }
 //切换界面时的animation
-@-webkit-keyframes move-lvzu {
+@keyframes move-lvzu {
     0% {
         opacity: 0;
-        -webkit-transform: translateY(20px);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
     }
 }
 //验证码出现的动画
-@-webkit-keyframes move-lvzu-2 {
+@keyframes move-lvzu-2 {
     0% {
         opacity: 0;
-        -webkit-transform: translateX(-15px);
+        transform: translateX(-15px);
     }
     to {
         opacity: 1;
@@ -334,7 +332,7 @@ a {
 }
 //animation的使用类  绑定后会有切换的效果 验证码
 .move-lvzu-2 {
-    -webkit-animation: move-lvzu-2 0.5s cubic-bezier(.4, 0, .2, 1) 0s 1;
+    animation: move-lvzu-2 0.5s cubic-bezier(.4, 0, .2, 1) 0s 1;
     animation: move-lvzu-2 0.5s cubic-bezier(.4, 0, .2, 1) 0s 1;
 }
 a:hover {
