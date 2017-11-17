@@ -181,7 +181,7 @@ export default {
         username:t.log_username,
         password:t.log_password
       })
-      .then((re =>{
+      .then(re =>{
         this.$message({
               message: '登录成功！',
               type: 'success'
@@ -192,7 +192,7 @@ export default {
             },2500)
 
             return
-      }),(re => {
+      },re => {
         if (re.msg =='passwordError') {
             this.$message.error('账号密码有误，请重新输入');
             t.log_password = ''
@@ -206,7 +206,7 @@ export default {
             t.setReg();
             return
           }
-      }))
+      })
 
     },
     _verify:function () {

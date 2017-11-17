@@ -71,7 +71,7 @@ ROOT_URLCONF = 'myproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'blogfront/dist')],
+        'DIRS': [os.path.join(BASE_DIR,'static')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -84,7 +84,7 @@ TEMPLATES = [
     },
 ]
 
-TEMPLATES_URL = os.path.join(BASE_DIR,'blogfront/dist')
+# TEMPLATES_URL = os.path.join(BASE_DIR,'blogfront/dist')
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
@@ -141,14 +141,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-
 STATIC_URL = '/static/'
-
-# STATICFILES_DIRS = (os.path.join(BASE_DIR,'blogfront/dist/static'),)
-#
 # # Add for vuejs
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "blogfront/dist/static"),
+    os.path.join(BASE_DIR, "blogfront/dist"),
 ]
 
 LANGUAGE_CODE = 'zh-Hans'
