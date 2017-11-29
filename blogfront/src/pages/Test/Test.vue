@@ -1,8 +1,8 @@
 <template>
   <div id="Test">
-    <web-torrent src="magnet:?xt=urn:btih:08ada5a7a6183aae1e09d831df6748d566095a10&dn=Sintel&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com&ws=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2F&xs=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2Fsintel.torrent"
-        file="Sintel.mp4"
-        />
+    <div>{{tel|formatPhone}}</div>
+    <input v-mybind />
+    <input v-lvclick />
   </div>
 </template>
 <script>
@@ -13,17 +13,34 @@ export default {
 
   data(){
     return{
-     
+      tel:13777821015,
     }
   },
 
-
-
-  methods: {
-
+  filters:{
+    formatPhone(tel) {
+      if (tel) {
+        var str =tel+'';
+        return str.substring(0,3)+'****'+str.split('').reverse().join('').substring(0,4).split('').reverse().join('');
+      }
+      return tel;
+    }
   },
 
-
+  directives:{
+    mybind:{
+        bind:function (el) {
+          el.value = "this is mybind-bind"
+        }
+    },
+    lvclick:{
+      bind:function(el){
+        el.onblur = function(){
+          console.log(el.value);
+        }
+      }
+    },
+  }
 }
 </script>
 
