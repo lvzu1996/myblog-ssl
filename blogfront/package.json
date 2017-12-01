@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "ali-oss": "^4.10.1",
+    "babel-polyfill": "^6.26.0",
     "element-ui": "^1.4.2",
+    "fetch-polyfill": "^0.8.2",
     "jquery": "^3.2.1",
     "lvment": "^2.0.5",
     "moment": "^2.18.1",

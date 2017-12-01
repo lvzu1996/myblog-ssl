@@ -1,3 +1,4 @@
+# -- coding: utf-8 --
 """
 Django settings for myproject project.
 
@@ -71,7 +72,7 @@ ROOT_URLCONF = 'myproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'static')],
+        'DIRS': [os.path.join(BASE_DIR,'blogfront/dist')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -140,11 +141,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+# python manage.py collectstatic 之后静态文件将要复制到的目录
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+# 设置的static file的起始url，只是在template里边引用到
 STATIC_URL = '/static/'
-# # Add for vuejs
+
+#  Add for vuejs 除了各个app的static目录以外还需要管理的静态文件设置
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "blogfront/dist"),
+    os.path.join(BASE_DIR, "blogfront/dist/static"),
 ]
 
 LANGUAGE_CODE = 'zh-Hans'

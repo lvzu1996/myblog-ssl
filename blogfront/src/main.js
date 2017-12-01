@@ -3,6 +3,8 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import store from './store'
+// import "babel-polyfill"
+// import "fetch-polyfill"
 
 // import VueResource from 'vue-resource'
 import 'element-ui/lib/theme-default/index.css'
