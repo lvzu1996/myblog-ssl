@@ -48,7 +48,7 @@ export default {
 }
 </script>
 
-<style>
-  @import "./livecenter.scss"
+<style lang="scss" scoped>
+  @import "./Livecenter.scss"
 
 </style>
