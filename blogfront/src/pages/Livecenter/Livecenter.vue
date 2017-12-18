@@ -1,9 +1,9 @@
 <template>
   <div id="livecenter">
       <el-switch
-        v-model="value3"
-        active-text="按月付费"
-        inactive-text="按年付费">
+        v-model="modes"
+        active-text="直播列表"
+        inactive-text="个人订阅">
         </el-switch>
 
       <div id="list-container">
@@ -28,11 +28,10 @@ import zhanqi from '../../assets/logos/zhanqi.png'
 import acfun from '../../assets/logos/acfun.png'
 import bilibili from '../../assets/logos/bilibili.png'
 import twitch from '../../assets/logos/twitch.png'
-
 export default {
     data(){
         return {
-             value3: true,
+            modes: true,
             avatarUrls:[douyu,panda,huya,longzhu,quanmin,zhanqi,twitch,acfun,bilibili],
             urls:[
                 'https://www.douyu.com/directory/all',

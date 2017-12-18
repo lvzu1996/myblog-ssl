@@ -4,8 +4,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 *.pyc
-dist/
-static/
+blogfront/dist/
+/static/
 
 # Editor directories and files
 .idea
