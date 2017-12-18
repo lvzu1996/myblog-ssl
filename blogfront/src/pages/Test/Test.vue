@@ -3,6 +3,7 @@
     <div>{{tel|formatPhone}}</div>
     <input v-mybind />
     <input v-lvclick />
+    <div id="lvzu">1233</div>
   </div>
 </template>
 <script>
@@ -46,6 +47,8 @@ export default {
 
 
 <style lang="scss" scoped>
-
+#lvzu{
+  color: linear-gradient( 135deg, #FFD3A5 10%, #FD6585 100%);
+}
 
 </style>

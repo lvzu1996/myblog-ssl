@@ -5,9 +5,9 @@ import ElementUI from 'element-ui'
 import store from './store'
 // import "babel-polyfill"
 // import "fetch-polyfill"
-
+import 'element-ui/lib/theme-chalk/index.css'
 // import VueResource from 'vue-resource'
-import 'element-ui/lib/theme-default/index.css'
+// import 'element-ui/lib/theme-default/index.css'
 // import lvment from 'lvment'
 
 Vue.config.productionTip = false

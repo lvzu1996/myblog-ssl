@@ -4,10 +4,10 @@
     <div id="detailInfo-main-part3" v-if="step===3">
 
       <div class="detailInfo-step3-div">
-        <el-steps :space="200" :active="step">
-          <el-step title="步骤 1" icon="edit"></el-step>
-          <el-step title="步骤 2" icon="picture"></el-step>
-          <el-step title="步骤 3" icon="information"></el-step>
+        <el-steps :space="1200" :active="3" style="width:440px;" simple>
+          <el-step title="注册账号" icon="el-icon-edit"></el-step>
+          <el-step title="上传头像" icon="el-icon-picture"></el-step>
+          <el-step title="详细信息" icon="el-icon-document"></el-step>
         </el-steps>
       </div>
 
@@ -64,10 +64,10 @@
     <transition name="fade">
       <div id="detailInfo-main-part2" v-if="step===2">
       <div class="detailInfo-step2-div">
-        <el-steps :space="200" :active="2">
-          <el-step title="步骤 1" icon="edit"></el-step>
-          <el-step title="步骤 2" icon="picture"></el-step>
-          <el-step title="步骤 3" icon="information"></el-step>
+        <el-steps :space="200" :active="2" style="width:550px;" simple>
+          <el-step title="注册账号" icon="el-icon-edit"></el-step>
+          <el-step title="上传头像" icon="el-icon-picture"></el-step>
+          <el-step title="详细信息" icon="el-icon-document"></el-step>
         </el-steps>
       </div>
         <div class="headpic-uploader move-lvzu">

@@ -2,12 +2,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient( 135deg, #FEB692 10%, #EA5455 100%);
+    background-image: linear-gradient( 135deg, #FFD3A5 10%, #FD6585 100%);
 }
 
 #list-container {
+    margin-top: 50px;
     width: 80%;
     height: 80%;
     display: flex;
@@ -17,9 +19,10 @@
 
 .single-item {
     width: 30%;
+    text-decoration: none;
 }
 
 .single-icons {
-    max-width: 55%;
-    max-height: 55%;
+    width: 38%;
+    height: 48%;
 }

@@ -32,7 +32,7 @@
       <span class= "login-problem">登录遇到问题?</span>
     </div>
     <div class="button">
-      <el-button class="login-button" type="info" size='large' @click="_login">登 录</el-button>
+      <el-button class="login-button" type="primary" size='large' @click="_login">登 录</el-button>
     </div>
     <div class="others">
       <h6 class="social-text">社交账号登录</h6>
@@ -63,7 +63,7 @@
           <use xlink:href="#icon-yanzhengma"></use>
         </svg>
           <input class = "us-pd-input" style="width:100px;float:left;margin-left:8px;"maxlength="6" type = 'text' spellcheck="false" v-model="register_verifycode" placeholder="验证码">
-            <el-button class="get-verifycode" type="info" @click="_getVerifyCode">获取验证码</el-button>
+            <el-button class="get-verifycode" type="primary" @click="_getVerifyCode">获取验证码</el-button>
       </div>
       <div class="us-pw-input-pre">
         <svg class="icon bef-icon" aria-hidden="true">
@@ -75,7 +75,7 @@
 
   <div id="after-move">
     <div class="button">
-      <el-button id="reg_but" class="login-button" type="info" size='large' @click="_register">注 册</el-button>
+      <el-button id="reg_but" class="login-button" type="primary" size='large' @click="_register">注 册</el-button>
     </div>
     <p class="sign-up-msg">点击 “注册” 即表示您同意并愿意遵守<br>
       <a style="color:#58B7FF;" href="#">用户协议</a>和
