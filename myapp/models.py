@@ -67,3 +67,38 @@ class TestModel2(models.Model):
 
     def __unicode__(self):
         return '测试数据'
+
+class LiveCenterAccounts(models.Model):
+    username = models.CharField(max_length=16)
+    password = models.CharField(max_length=256)
+    register_time = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return self.username
+    def save(self,*args,**kwargs):
+        self.password = hashlib.sha1(self.password+self.username).hexdigest()
+        super(LiveCenterAccounts,self).save(*args,**kwargs)
+
+
+class Subscribe(models.Model):
+    userid = models.IntegerField()
+    tvname = models.CharField(max_length=256)
+    roomnumber = models.CharField(max_length=16)
+
+    def __unicode__(self):
+        return self.userid
+
+
+class LiveCenterSession(models.Model):
+    userid = models.IntegerField()
+    session_key = models.CharField(max_length=256)
+    session_value = models.CharField(max_length=256)
+    expire = models.IntegerField()
+
+    def __unicode__(self):
+        return self.userid
+
+    def isExpired(self,date):
+        return date > self.expire
+    
+

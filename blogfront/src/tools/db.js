@@ -2,7 +2,12 @@ import DBF from './dbFactory'
 
 export default DBF.context;
 
-let prefix = 'https://world-elite.site'
+var prefix = ''
+
+if(process.env.NODE_ENV === "development"){
+    prefix = 'https://world-elite.site'
+}
+
 
 DBF.create('api', {
     //home 获取 主页背景

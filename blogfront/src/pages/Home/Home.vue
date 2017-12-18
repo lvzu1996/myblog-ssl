@@ -54,7 +54,6 @@
 import moment from 'moment'
 import DB from '../../tools/db.js'
 
-
 export default {
   name: 'home',
   data () {

@@ -14,6 +14,12 @@
 import _config_ from '../../../config'
 var ossConfig = _config_._ossConfig_
 
+//请求域名前缀
+var prefix = ''
+if(process.env.NODE_ENV === "development"){
+  prefix = 'http://127.0.0.1:8000'
+}
+
 /*函数大体上分为两个部分
  *第一个部分是从服务器请求临时accessKey，accessSecrete和stsToken
  *第二个部分是通过第一步中请求到的临时秘钥访问阿里云oss，并进行头像的上传
@@ -23,7 +29,7 @@ var asyncUpload = async function (username,t,imgFile,){
   var client,credentials
 
   //从服务器请求临时accessKey，accessSecrete和stsToken
-  await fetch(`https://${ossConfig.hostname}/api/getSTStoken?session_name=${username}`, {
+  await fetch(`${prefix}/api/getSTStoken?session_name=${username}`, {
       method: 'get',
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
@@ -53,7 +59,7 @@ var asyncUpload = async function (username,t,imgFile,){
      if(re.res.status === 200){
        //从返回的数据中获取头像地址并储存至服务器数据库中
        t.form.headpic_url = re.res.requestUrls[0]
-       fetch(`https://${t.hostname}/api/set_detailInfo`, {
+       fetch(`${prefix}/api/set_detailInfo`, {
            method: 'post',
            body: 'username=' + localStorage.username + '&name=' + '' + '&address=' + '' + '&birthday=' + '' + '&gender=' + '' + '&school=' + '' + '&headpic_url=' + t.form.headpic_url,
            headers: {
