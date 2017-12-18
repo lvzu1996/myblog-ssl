@@ -40,21 +40,30 @@
 </template>
 
 <script>
-import douyu from '../../assets/logos/douyu.png'
-import panda from '../../assets/logos/panda.png'
-import huya from '../../assets/logos/huya.png'
-import longzhu from '../../assets/logos/longzhu.png'
-import quanmin from '../../assets/logos/quanmin.png'
-import zhanqi from '../../assets/logos/zhanqi.png'
-import acfun from '../../assets/logos/acfun.png'
-import bilibili from '../../assets/logos/bilibili.png'
-import twitch from '../../assets/logos/twitch.png'
+// import douyu from '../../assets/logos/douyu.png'
+// import panda from '../../assets/logos/panda.png'
+// import huya from '../../assets/logos/huya.png'
+// import longzhu from '../../assets/logos/longzhu.png'
+// import quanmin from '../../assets/logos/quanmin.png'
+// import zhanqi from '../../assets/logos/zhanqi.png'
+// import acfun from '../../assets/logos/acfun.png'
+// import bilibili from '../../assets/logos/bilibili.png'
+// import twitch from '../../assets/logos/twitch.png'
 
 export default {
     data(){
         return {
             modes: true,
-            avatarUrls:[douyu,panda,huya,longzhu,quanmin,zhanqi,twitch,acfun,bilibili],
+            avatarUrls:[
+                'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/douyu.png',
+                'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/panda.png',
+                'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/huya.png',
+                'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/longzhu.png',
+                'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/quanmin.png',
+                'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/zhanqi.png',
+                'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/twitch.png',
+                'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/acfun.png',
+                'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/bilibili.png'],
             urls:[
                 'https://www.douyu.com/directory/all',
                 'https://www.panda.tv/all',
