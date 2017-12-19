@@ -267,10 +267,10 @@ export default {
               message: '恭喜您，注册成功！',
               type: 'success'
             });
+            localStorage.username = t.register_username
             setTimeout(function () {
-              // t.isLog = true
-              localStorage.username = t.register_username
-              t.$router.push({ path:'/register/detailInfo' })
+              t.isLog = true
+              // t.$router.push({ path:'/register/detailInfo' })
             },1000)
       },re => {
         this.$message({
