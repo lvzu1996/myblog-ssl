@@ -163,7 +163,16 @@ export default {
         },
         _subscribe(){
             const _this = this
-            DB.api.livecenter_subscribe({
+            if(_this.roomnumber == ''){
+                this.$message({
+                    showClose: true,
+                    message: '请输入正确的房间号',
+                    type: 'error',
+                    duration:'1300'
+                });
+                return 
+            }
+            DB.api.livecenterSubscribe({
                 tvname:_this.tvname,
                 roomnumber:_this.roomnumber
             })
