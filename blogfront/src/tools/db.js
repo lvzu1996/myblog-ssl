@@ -4,12 +4,14 @@ export default DBF.context;
 
 var prefix = ''
 
-if(process.env.NODE_ENV === "development"){
-    prefix = 'http://127.0.0.1:8000'
-}
-if(process.env.NODE_ENV === "production"){
-    prefix = 'https://world-elite.site'
-}
+// if(process.env.NODE_ENV === "development"){
+//     prefix = 'http://127.0.0.1:8000'
+// }
+// if(process.env.NODE_ENV === "production"){
+//     prefix = 'https://world-elite.site'
+// }
+// prefix = 'http://127.0.0.1:8000'
+prefix = 'https://world-elite.site'
 
 
 DBF.create('api', {

@@ -19,6 +19,7 @@ url(r'test_model_fjy$', views.test_model_fjy),
 url(r'livecenter_register$', views.livecenter_register),
 url(r'livecenter_login$', views.livecenter_login),
 url(r'livecenter_subscribe$', views.livecenter_subscribe),
+url(r'livecenter_getSubscribeList$', views.livecenter_getSubscribeList),
 
 url(r'get_douyu$', views.get_douyu),
 

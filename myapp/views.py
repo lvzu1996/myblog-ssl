@@ -294,17 +294,15 @@ def livecenter_login(request):
                         jsonRes['error_num'] = 1
                         response.write(json.dumps(jsonRes))
                         return response
-                else:
-                    jsonRes['msg'] = 'fail'
-                    jsonRes['error_num'] = 1
-                    response.write(json.dumps(jsonRes))
-                    return response
-
+               
             except Exception,e:
-                jsonRes['msg'] = 'fail'
-                jsonRes['error_num'] = 1
-                response.write(json.dumps(jsonRes))
-                return response
+                pass
+
+        jsonRes['msg'] = 'need login'
+        jsonRes['error_num'] = 1
+        response.write(json.dumps(jsonRes))
+        return response
+
     else:
         try:
             hasAccount = LiveCenterAccounts.objects.get(username=_username)
@@ -393,27 +391,38 @@ def livecenter_register(request):
 @csrf_exempt
 @require_http_methods(["GET"])
 def livecenter_subscribe(request):
-    _userid = request.GET.get('userid')
-    _tvname = request.GET.get('tvname')
-    _roomnumber = request.GET.get('roomnumber')
     response = {}
-    try:
-        print _userid
-        subscribe = Subscribe(userid=_userid,tvname=_tvname,roomnumber=_roomnumber)
-        subscribe.save()
-        response['msg'] = 'success'
-        response['error_num'] = 0
-        
-    except  Exception,e:
-        response['msg'] = str(e)
-        response['error_num'] = 1
+    if '_lc_k' in request.COOKIES and '_lc_v' in request.COOKIES:
+        __lc_k = request.COOKIES['_lc_k']
+        __lc_v = request.COOKIES['_lc_v']
+        _userid = request.GET.get('userid')
+        _tvname = request.GET.get('tvname')
+        try:
+            hasSession = LiveCenterSession.objects.get(session_key=__lc_k)
+            if(hasSession):
+                if(hasSession.session_value==__lc_v and hasSession.expire>time.time()):
+                    subscribe = Subscribe(userid=hasSession.userid,tvname=_tvname,roomnumber=_roomnumber)
+                    subscribe.save()
+                    response['msg'] = 'success'
+                    response['error_num'] = 0
+                    return JsonResponse(response)
+                else:
+                    hasSession.delete()
+                    response['msg'] = 'need login'
+                    response['error_num'] = 1
+                    return JsonResponse(response)
 
+        except Exception,e:
+            pass
+
+    response['msg'] = 'need login'
+    response['error_num'] = 1
     return JsonResponse(response)
-
+    
 @csrf_protect
 @csrf_exempt
 @require_http_methods(["GET"])
-def getSubscribeList(request):
+def livecenter_getSubscribeList(request):
     response = {}
     try:
         lctk_key = request.GET.get('lctk_key')
@@ -421,9 +430,9 @@ def getSubscribeList(request):
         if(hasLctk):
             list = Subscribe.objects.filter(userid=hasLctk.userid)
             list = json.loads(serializers.serialize("json", list))
-            jsonRes['msg'] = 'success'
-            jsonRes['data'] = list
-            jsonRes['error_num'] = 0
+            response['msg'] = 'success'
+            response['data'] = list
+            response['error_num'] = 0
             return JsonResponse(response)
             
     except  Exception,e:

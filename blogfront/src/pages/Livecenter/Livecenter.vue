@@ -145,6 +145,17 @@ export default {
                             this.$router.push('/register')
                         },1500)
                     }
+                    else if(re.msg == 'expired'){
+                        this.$message({
+                            showClose: true,
+                            message: '登录状态过期请重新登录',
+                            type: 'error',
+                            duration:'1300'
+                        });
+                        setTimeout(()=>{
+                            this.$router.push('/register')
+                        },1500)
+                    }
                 })
             }else{
 
