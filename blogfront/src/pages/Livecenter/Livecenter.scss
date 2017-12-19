@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 100%;
+  // height: 100%;
   background-image: linear-gradient( 135deg, #FFD3A5 10%, #FD6585 100%);
 }
 
@@ -22,10 +22,12 @@
 }
 
 .single-icons {
-  width: 38%;
-  height: 48%;
+  max-width:40%;
+  height:auto;
 }
-
+.single-icons:hover{
+  cursor: pointer;
+}
 #hidebg {
   position: absolute;
   left: 0px;
@@ -62,4 +64,11 @@
   display: flex;
   margin-top: 30px;
   width: 100%;
+}
+
+.fade-enter-active {
+  transition: opacity .5s
+}
+.fade-enter /* .fade-leave-active in below version 2.1.8 */ {
+  opacity: 0
 }

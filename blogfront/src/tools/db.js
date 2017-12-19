@@ -51,5 +51,11 @@ DBF.create('api', {
         url       : prefix+'/api/livecenter_register',
         method    :'POST',
     },
+
+    //livecenter 用户注册
+    getSubscribeList: {
+        url       : prefix+'/api/getSubscribeList',
+        method    :'GET',
+    },
     
 });

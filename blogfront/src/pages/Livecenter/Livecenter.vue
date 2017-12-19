@@ -1,12 +1,12 @@
 <template>
   <div id="livecenter">
       <div id="hidebg"></div>
-      <div id="login">
+      <!-- <div id="login">
           <div></div>
           <el-input v-model="loginData.username" placeholder="请输入账号" class="login-input"></el-input>
           <el-input v-model="loginData.password" placeholder="请输入密码" class="login-input"></el-input>
           <el-button type="primary">主要按钮</el-button>
-      </div>
+      </div> -->
       <el-switch
         v-model="modes"
         @change="_switchChange"
@@ -17,17 +17,17 @@
         style="margin-top:50px;margin-left:-100px;">
         </el-switch>
 
-            <div id="list-container"  v-if="modes">
-                <a class="single-item" 
+           <transition name="fade">
+            <div id="list-container"  v-show="modes">
+                <div class="single-item" 
                     v-for="(item,index) in avatarUrls" 
-                    :key="index"
-                    :href="urls[index]">
-
-                    <img :src="item" class="single-icons">
-                </a>
+                    :key="index">
+                    <img :src="item" class="single-icons" @click="_jumpTo(urls[index])">
+                </div>
             </div> 
+        </transition>
 
-        <div v-else id="subscribe-list">
+        <div v-show="!modes" id="subscribe-list">
             <div id="tv-s">
                 <el-select v-model="selectedtv" placeholder="请选择平台" id="tv-selector">
                     <el-option
@@ -41,6 +41,8 @@
                 <el-button type="primary" @click="_subscribe">添加订阅主播</el-button>
             </div>
         </div>
+        
+        
   </div>    
 </template>
 
@@ -68,9 +70,9 @@ export default {
                 'http://longzhu.com/channels/all',
                 'https://www.quanmin.tv/game/all',
                 'http://www.zhanqi.tv/lives',
+                'https://www.twitch.tv/',
                 'http://www.acfun.cn/',
-                'https://www.bilibili.com/',
-                'https://www.twitch.tv/'
+                'https://www.bilibili.com/'
             ],
             tvnames: [{
                 value: 'douyu',
@@ -96,14 +98,33 @@ export default {
         }
     },
 
+    beforeMount:function(){
+        //  $('#livecenter').css('height',$(window).height())
+         if(this.$route.query.list ==1 ){
+             this.modes = false
+         }
+         if(this.$route.query.lctk_key){
+             var _lctk_key = this.$route.query.lctk_key
+             db.getSubscribeList({
+                 lctk_key:_lctk_key
+             }).then(
+                 re => {/*渲染list*/},
+                 () => {}
+             )
+         }
+         
+    },
+
     mounted:function(){
-         $('#livecenter').css('height',$(window).height())
+        $('#livecenter').css('min-height',window.screen.availHeight)
+        $('#list-container').css('min-height',window.screen.availHeight*0.8)
+        $('#subscribe-list').css('min-height',window.screen.availHeight*0.8)
     },
     
     methods:{
         _switchChange(){
             const _this = this
-            // console.log(this.modes)
+            // 检测cookie登录状态，若有发送请求，获取list
             if(this.modes == false){
                 DB.api.livecenterLogin({
                     username:'',
@@ -115,14 +136,15 @@ export default {
 
                     }
                 })
-                //检测cookie登录状态，若有发送请求，获取list
-                // $('#hidebg').css('display','block')
             }else{
-                $('#hidebg').css('display','none')
+
             }
         },
         _subscribe(){
             
+        },
+        _jumpTo(url){
+            window.location.href=url
         },
     },
 }

@@ -391,29 +391,19 @@ def livecenter_register(request):
 
 @csrf_protect
 @csrf_exempt
-@require_http_methods(["POST"])
+@require_http_methods(["GET"])
 def livecenter_subscribe(request):
-    req = json.loads(request.body)
-    _username = req['username']
-    _list = req['list']
+    _userid = request.GET.get('userid')
+    _tvname = request.GET.get('tvname')
+    _roomnumber = request.GET.get('roomnumber')
     response = {}
     try:
-        hasAccount = LiveCenterAccounts.objects.get(username=_username)
-        if(not hasAccount):
-            response['msg'] = 'error'
-            response['error_num'] = 0
-            return JsonResponse(response)
+        print _userid
+        subscribe = Subscribe(userid=_userid,tvname=_tvname,roomnumber=_roomnumber)
+        subscribe.save()
+        response['msg'] = 'success'
+        response['error_num'] = 0
         
-        for m in range(len(_list)):
-            ifexsist = Subscribe.objects.get(userid = hasAccount.id,tvname = _list[m]['tvname'], roomnumber = _list[m]['roomnumber'])
-            if(ifexsist):
-                response['msg'] = 'success'
-                response['error_num'] = 0
-                return JsonResponse(response)
-            subscribe = Subscribe(userid = hasAccount.id,tvname = _list[m]['tvname'], roomnumber = _list[m]['roomnumber'])
-            subscribe.save()
-            response['msg'] = 'success'
-            response['error_num'] = 0
     except  Exception,e:
         response['msg'] = str(e)
         response['error_num'] = 1
