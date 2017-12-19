@@ -29,7 +29,7 @@
 
         <div v-show="!modes" id="subscribe-list">
             <div id="tv-s">
-                <el-select v-model="selectedtv" placeholder="请选择平台" id="tv-selector">
+                <el-select v-model="tvname" placeholder="请选择平台" id="tv-selector">
                     <el-option
                     v-for="item in tvnames"
                     :key="item.value"
@@ -54,15 +54,15 @@ export default {
         return {
             modes: true,
             avatarUrls:[
-                'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/douyu.png',
-                'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/panda.png',
-                'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/huya.png',
-                'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/longzhu.png',
-                'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/quanmin.png',
-                'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/zhanqi.png',
-                'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/twitch.png',
-                'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/acfun.png',
-                'http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/bilibili.png'],
+                'https://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/douyu.png',
+                'https://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/panda.png',
+                'https://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/huya.png',
+                'https://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/longzhu.png',
+                'https://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/quanmin.png',
+                'https://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/zhanqi.png',
+                'https://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/twitch.png',
+                'https://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/acfun.png',
+                'https://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/bilibili.png'],
             urls:[
                 'https://www.douyu.com/directory/all',
                 'https://www.panda.tv/all',
@@ -93,7 +93,7 @@ export default {
                 value: 'zhanqi',
                 label: '战旗直播'
                 }],
-            selectedtv: '',
+            tvname: '',
             roomnumber:'',
         }
     },
@@ -105,7 +105,7 @@ export default {
          }
          if(this.$route.query.lctk_key){
              var _lctk_key = this.$route.query.lctk_key
-             db.getSubscribeList({
+             DB.api.getSubscribeList({
                  lctk_key:_lctk_key
              }).then(
                  re => {/*渲染list*/},
@@ -132,8 +132,18 @@ export default {
                     type:'1'
                 })
                 .then(re => {
-                    if(re.status == 'success'){
-
+                   //渲染列表
+                },re =>{
+                    if(re.msg == 'need login'){
+                        this.$message({
+                            showClose: true,
+                            message: '使用订阅功能请先登录',
+                            type: 'error',
+                            duration:'1300'
+                        });
+                        setTimeout(()=>{
+                            this.$router.push('/register')
+                        },1500)
                     }
                 })
             }else{
@@ -141,7 +151,15 @@ export default {
             }
         },
         _subscribe(){
-            
+            const _this = this
+            DB.api.livecenter_subscribe({
+                tvname:_this.tvname,
+                roomnumber:_this.roomnumber
+            })
+            .then(
+                re => {console.log(re)},
+                re => {console.log(re)}
+            )
         },
         _jumpTo(url){
             window.location.href=url

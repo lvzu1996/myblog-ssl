@@ -52,9 +52,15 @@ DBF.create('api', {
         method    :'POST',
     },
 
-    //livecenter 用户注册
+    //livecenter 获取订阅list
     getSubscribeList: {
-        url       : prefix+'/api/getSubscribeList',
+        url       : prefix+'/api/livecenter_getSubscribeList',
+        method    :'GET',
+    },
+
+    //livecenter 订阅主播
+    livecenterSubscribe: {
+        url       : prefix+'/api/livecenter_subscribe',
         method    :'GET',
     },
     
