@@ -5,6 +5,9 @@ export default DBF.context;
 var prefix = ''
 
 if(process.env.NODE_ENV === "development"){
+    prefix = 'http://127.0.0.1:8000'
+}
+if(process.env.NODE_ENV === "production"){
     prefix = 'https://world-elite.site'
 }
 
@@ -33,6 +36,19 @@ DBF.create('api', {
     //register/detailinfo 用户详细信息
     setDetailInfo: {
         url       : prefix+'/api/set_detailInfo',
+        method    :'POST',
+    },
+
+    //livecenter 用户详细信息
+    livecenterLogin: {
+        url       : prefix+'/api/livecenter_login',
+        method    :'POST',
+    },
+    
+
+    //livecenter 用户注册
+    livecenterRegister: {
+        url       : prefix+'/api/livecenter_register',
         method    :'POST',
     },
     

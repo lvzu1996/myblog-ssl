@@ -102,3 +102,11 @@ class LiveCenterSession(models.Model):
         return date > self.expire
     
 
+class LiveCenterTempKeyIdTrans(models.Model):
+    userid = models.IntegerField()
+    key = models.CharField(max_length=256)
+    expire = models.IntegerField()
+
+    def __unicode__(self):
+        return self.userid
+

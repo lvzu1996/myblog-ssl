@@ -46,7 +46,7 @@
 
   <div v-show="!isLog" class = "el-class" :class="{'move-lvzu':!isLog}">
     <div class="register-input">
-      <div class="us-pw-input-pre">
+      <div class="us-pw-input-pre" style="display:none;">
         <svg class="icon bef-icon" aria-hidden="true">
           <use xlink:href="#icon-nicheng"></use>
         </svg>
@@ -165,7 +165,8 @@ export default {
       return mobiReg.test(pn)
     },
     _passwordTest:function (pswd) {
-      var pswdReg = new RegExp(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/)
+      // var pswdReg = new RegExp(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/)
+      var pswdReg = new RegExp(/^[0-9A-Za-z]{8,16}$/)
       return pswdReg.test(pswd)
     },
     _login: function() {
@@ -177,9 +178,10 @@ export default {
         return
       }
 
-      DB.api.accountLogin({
+      DB.api.livecenterLogin({
         username:t.log_username,
-        password:t.log_password
+        password:t.log_password,
+        type:'2'
       })
       .then(re =>{
         this.$message({
@@ -236,10 +238,10 @@ export default {
     },
     _register: function() {
       const t = this
-      if (t.register_nickname.length < 7) {
-        t.$message.error('您输入的昵称过短，长度应大于6');
-        return
-      }
+      // if (t.register_nickname.length < 7) {
+      //   t.$message.error('您输入的昵称过短，长度应大于6');
+      //   return
+      // }
       if (!t._mobiTest(t.register_username)) {
         t.$message.error('您的手机号输入有误，请重新输入');
         return
@@ -250,16 +252,15 @@ export default {
         return
       }
       if(!t._passwordTest(t.register_password)){
-        this.$message.error('密码需长度为8-16，且同时包含数字和大小写，不能有特殊字符');
+        this.$message.error('密码需长度为8-16,不能有特殊字符');
         t.register_password = ''
         t.register_verifycode = ''
         return
       }
 
-      DB.api.accountRegister({
+      DB.api.livecenterRegister({
         username:t.register_username,
         password:t.register_password,
-        nickname:t.register_nickname
       })
       .then(re => {
         this.$message({

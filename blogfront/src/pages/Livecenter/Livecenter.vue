@@ -1,11 +1,16 @@
 <template>
   <div id="livecenter">
       <div id="hidebg"></div>
-      <div id="login"></div>
+      <div id="login">
+          <div></div>
+          <el-input v-model="loginData.username" placeholder="请输入账号" class="login-input"></el-input>
+          <el-input v-model="loginData.password" placeholder="请输入密码" class="login-input"></el-input>
+          <el-button type="primary">主要按钮</el-button>
+      </div>
       <el-switch
         v-model="modes"
         @change="_switchChange"
-        active-text="直播列表"
+        active-text="平台列表"
         inactive-text="个人订阅"
         width="80"
         inactive-color="#FA8E93"
@@ -40,15 +45,7 @@
 </template>
 
 <script>
-// import douyu from '../../assets/logos/douyu.png'
-// import panda from '../../assets/logos/panda.png'
-// import huya from '../../assets/logos/huya.png'
-// import longzhu from '../../assets/logos/longzhu.png'
-// import quanmin from '../../assets/logos/quanmin.png'
-// import zhanqi from '../../assets/logos/zhanqi.png'
-// import acfun from '../../assets/logos/acfun.png'
-// import bilibili from '../../assets/logos/bilibili.png'
-// import twitch from '../../assets/logos/twitch.png'
+import DB from '../../tools/db.js'
 
 export default {
     data(){
@@ -95,7 +92,7 @@ export default {
                 label: '战旗直播'
                 }],
             selectedtv: '',
-            roomnumber:''
+            roomnumber:'',
         }
     },
 
@@ -105,8 +102,19 @@ export default {
     
     methods:{
         _switchChange(){
+            const _this = this
             // console.log(this.modes)
             if(this.modes == false){
+                DB.api.livecenterLogin({
+                    username:'',
+                    password:'',
+                    type:'1'
+                })
+                .then(re => {
+                    if(re.status == 'success'){
+
+                    }
+                })
                 //检测cookie登录状态，若有发送请求，获取list
                 // $('#hidebg').css('display','block')
             }else{
