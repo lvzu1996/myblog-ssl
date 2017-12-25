@@ -48,8 +48,8 @@
                         <span class="ssi-owner">{{item.owner_name}}</span>
                         <span class="ssi-cate">{{item.cate_name}}</span>
                         <span class="ssi-online">{{item.online}}</span>
-                    <img :src="douyulogo" class="ssi-logo" v-if="item.platform == 'douyu'">
-                    <img :src="pandalogo" class="ssi-logo" v-if="item.platform == 'panda'">
+                    <!-- <img :src="douyulogo" class="ssi-logo" v-if="item.platform == 'douyu'">
+                    <img :src="pandalogo" class="ssi-logo" v-if="item.platform == 'panda'"> -->
                     </div>
                 </div>
             </div>
@@ -61,8 +61,6 @@
 
 <script>
 import DB from '../../tools/db.js'
-import douyulogo from "../../assets/斗鱼直播1.svg"
-import pandalogo from "../../assets/熊猫直播.svg"
 export default {
     data(){
         return {
@@ -118,8 +116,8 @@ export default {
                 link:'',
                 platform:'',
             }],
-            pandalogo,
-            douyulogo,
+            // pandalogo,
+            // douyulogo,
         }
     },
 
