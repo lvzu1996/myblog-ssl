@@ -118,6 +118,8 @@ export default {
                 link:'',
                 platform:'',
             }],
+            pandalogo,
+            douyulogo,
         }
     },
 
