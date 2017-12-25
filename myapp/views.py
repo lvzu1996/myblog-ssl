@@ -282,7 +282,7 @@ def livecenter_login(request):
                 hasSession = LiveCenterSession.objects.get(session_key=__lc_k)
                 if(hasSession):
                     if(hasSession.session_value==__lc_v and hasSession.expire>time.time()):
-                        list = Subscribe.objects.filter(userid=hasSession.id)
+                        list = Subscribe.objects.filter(userid=hasSession.userid)
                         list = json.loads(serializers.serialize("json", list))
                         jsonRes['msg'] = 'success'
                         jsonRes['data'] = getAllRoomInfo(list)
