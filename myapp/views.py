@@ -7,6 +7,7 @@ from models import *
 from django.core import serializers
 from django.http import HttpResponse 
 from django.views.decorators.csrf import csrf_protect,csrf_exempt
+from livecenter import *
 import functions
 import aliyunSTS
 import hashlib
@@ -284,7 +285,7 @@ def livecenter_login(request):
                         list = Subscribe.objects.filter(userid=hasSession.id)
                         list = json.loads(serializers.serialize("json", list))
                         jsonRes['msg'] = 'success'
-                        jsonRes['data'] = list
+                        jsonRes['data'] = getAllRoomInfo(list)
                         jsonRes['error_num'] = 0
                         response.write(json.dumps(jsonRes))
                         return response
@@ -324,14 +325,14 @@ def livecenter_login(request):
                     liveCenterSession.save()
                     response.set_cookie('_lc_k',session_key,7*24*60*60)
                     response.set_cookie('_lc_v',session_value,7*24*60*60)
-                    lctit_key = hashlib.sha1(str(now)).hexdigest()
+                    lctk_key = hashlib.sha1(str(now)).hexdigest()
 
                     onehour = now+60*60
-                    liveCenterTempKeyIdTrans = LiveCenterTempKeyIdTrans(userid=hasAccount.id,key=lctit_key,expire=int(onehour))
+                    liveCenterTempKeyIdTrans = LiveCenterTempKeyIdTrans(userid=hasAccount.id,key=lctk_key,expire=int(onehour))
                     liveCenterTempKeyIdTrans.save()
 
                     jsonRes['msg'] = 'success'
-                    jsonRes['data'] = lctit_key
+                    jsonRes['data'] = lctk_key
                     jsonRes['error_num'] = 0
                     
                     response.write(json.dumps(jsonRes))
@@ -345,7 +346,6 @@ def livecenter_login(request):
                 
 
         except  Exception,e:
-            print e
             jsonRes['msg'] = 'notRegisterd'
             jsonRes['error_num'] = 1
             
@@ -392,10 +392,11 @@ def livecenter_register(request):
 @require_http_methods(["GET"])
 def livecenter_subscribe(request):
     response = {}
+
     if '_lc_k' in request.COOKIES and '_lc_v' in request.COOKIES:
         __lc_k = request.COOKIES['_lc_k']
         __lc_v = request.COOKIES['_lc_v']
-        _userid = request.GET.get('userid')
+        _roomnumber = request.GET.get('roomnumber')
         _tvname = request.GET.get('tvname')
         try:
             hasSession = LiveCenterSession.objects.get(session_key=__lc_k)
@@ -403,6 +404,12 @@ def livecenter_subscribe(request):
                 if(hasSession.session_value==__lc_v and hasSession.expire>time.time()):
                     subscribe = Subscribe(userid=hasSession.userid,tvname=_tvname,roomnumber=_roomnumber)
                     subscribe.save()
+                    now = time.time()
+                    lctk_key = hashlib.sha1(str(now)).hexdigest()
+                    onehour = now + 60 * 60
+                    liveCenterTempKeyIdTrans = LiveCenterTempKeyIdTrans(userid=hasSession.userid, key=lctk_key, expire=int(onehour))
+                    liveCenterTempKeyIdTrans.save()
+                    response['data'] = lctk_key
                     response['msg'] = 'success'
                     response['error_num'] = 0
                     return JsonResponse(response)
@@ -431,7 +438,7 @@ def livecenter_getSubscribeList(request):
             list = Subscribe.objects.filter(userid=hasLctk.userid)
             list = json.loads(serializers.serialize("json", list))
             response['msg'] = 'success'
-            response['data'] = list
+            response['data'] = getAllRoomInfo(list)
             response['error_num'] = 0
             return JsonResponse(response)
             

@@ -27,9 +27,9 @@
             </div> 
         </transition>
 
-        <div v-show="!modes" id="subscribe-list">
+        <div v-show="!modes" id="subscribes">
             <div id="tv-s">
-                <el-select v-model="tvname" placeholder="请选择平台" id="tv-selector">
+                <el-select v-model="tvname" placeholder="直播平台" id="tv-selector">
                     <el-option
                     v-for="item in tvnames"
                     :key="item.value"
@@ -39,6 +39,19 @@
                 </el-select>
                 <el-input v-model="roomnumber" placeholder="请输入房间后缀"></el-input>
                 <el-button type="primary" @click="_subscribe">添加订阅主播</el-button>
+            </div>
+            <div id="subscribe-list">
+                <div class="single-subscribe" v-for="(item,index) in subscribeListData" :key="index" @click="_jumpTo(item.link)">
+                    <img :src="item.room_thumb" alt="">
+                    <div class="single-subscribe-infos">
+                        <span class="ssi-room">{{item.room_name}}</span>
+                        <span class="ssi-owner">{{item.owner_name}}</span>
+                        <span class="ssi-cate">{{item.cate_name}}</span>
+                        <span class="ssi-online">{{item.online}}</span>
+                    <img src="../../assets/斗鱼直播1.svg" class="ssi-logo" v-if="item.platform == 'douyu'">
+                    <img src="../../assets/熊猫直播.svg" class="ssi-logo" v-if="item.platform == 'panda'">
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -95,10 +108,20 @@ export default {
                 }],
             tvname: '',
             roomnumber:'',
+            subscribeListData:[{
+                room_thumb:'',
+                owner_name:'',
+                room_name:'',
+                online:'',
+                cate_name:'',
+                link:'',
+                platform:'',
+            }],
         }
     },
 
     beforeMount:function(){
+        const _this = this
         //  $('#livecenter').css('height',$(window).height())
          if(this.$route.query.list ==1 ){
              this.modes = false
@@ -108,7 +131,9 @@ export default {
              DB.api.getSubscribeList({
                  lctk_key:_lctk_key
              }).then(
-                 re => {/*渲染list*/},
+                 re => {
+                     _this.subscribeListData = re
+                 },
                  () => {}
              )
          }
@@ -177,8 +202,25 @@ export default {
                 roomnumber:_this.roomnumber
             })
             .then(
-                re => {console.log(re)},
-                re => {console.log(re)}
+                re => {
+                        _this.roomnumber = ''
+                        _this.$router.push({ path:`/livecenter?list=1&lctk_key=${re}` })
+                        setTimeout(() => {
+                            _this.$router.go(0)
+                        },500)
+                    },  
+                re => {
+                    _this.$message({
+                            showClose: true,
+                            message: '登录状态过期请重新登录',
+                            type: 'error',
+                            duration:'1300'
+                        });
+                         setTimeout(()=>{
+                            _this.$router.push('/register')
+                        },1500)
+                }
+                
             )
         },
         _jumpTo(url){

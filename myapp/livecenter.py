@@ -20,6 +20,8 @@ def getDouyuRoomInfo(room_number):
         returnObj['room_name'] = data['data']['room_name']
         returnObj['online'] = data['data']['online']
         returnObj['cate_name'] = data['data']['cate_name']
+        returnObj['link'] = 'https://www.douyu.com/' + data['data']['room_id']
+        returnObj['platform'] = 'douyu'
         return returnObj
     else:
         return -1
@@ -28,7 +30,6 @@ def getPandaRoomInfo(room_number):
     returnObj = {}
     flag = False
     tempData = {}
-
     for i in range(0,10):
         if(flag):
             break
@@ -40,19 +41,34 @@ def getPandaRoomInfo(room_number):
         data = json.loads(res)
         infoArr = data['showapi_res_body']['data']
         for i in infoArr:
-            if(int(i['id']) == room_number):
+            if(int(i['id']) == int(room_number)):
                 flag = True
                 tempData = i
                 break
 
     if(tempData != {}):
-        returnObj['room_thumb'] = i['pictures']['img']
-        returnObj['owner_name'] = i['userinfo']['nickName']
-        returnObj['room_name'] = i['name']
-        returnObj['online'] = i['person_num']
-        returnObj['cate_name'] = i['classification']['cname']
+        returnObj['room_thumb'] = tempData['pictures']['img']
+        returnObj['owner_name'] = tempData['userinfo']['nickName']
+        returnObj['room_name'] = tempData['name']
+        returnObj['online'] = tempData['person_num']
+        returnObj['cate_name'] = tempData['classification']['cname']
+        returnObj['link'] = 'https://www.panda.tv/'+tempData['id']
+        returnObj['platform'] = 'panda'
         return returnObj
     else:
         return -1
                 
-print getPandaRoomInfo(1270429)
+# print getPandaRoomInfo(599532)
+# print getDouyuRoomInfo(2267291)
+
+def getAllRoomInfo(roomArr):
+    returnArr = []
+    for i in roomArr:
+        tvname = i['fields']['tvname']
+        roomnumber = i['fields']['roomnumber']
+        if(str(tvname) == 'panda'):
+            returnArr.append(getPandaRoomInfo(roomnumber))
+        if(str(tvname) == 'douyu'):
+            returnArr.append(getDouyuRoomInfo(roomnumber))
+    return returnArr
+    

@@ -86,7 +86,7 @@ class Subscribe(models.Model):
     roomnumber = models.CharField(max_length=16)
 
     def __unicode__(self):
-        return self.userid
+        return self.tvname
 
 
 class LiveCenterSession(models.Model):
@@ -96,7 +96,7 @@ class LiveCenterSession(models.Model):
     expire = models.IntegerField()
 
     def __unicode__(self):
-        return self.userid
+        return self.session_key
 
     def isExpired(self,date):
         return date > self.expire
