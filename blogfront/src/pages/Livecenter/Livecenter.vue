@@ -157,7 +157,7 @@ export default {
                     type:'1'
                 })
                 .then(re => {
-                   //渲染列表
+                   _this.subscribeListData = re
                 },re =>{
                     if(re.msg == 'need login'){
                         this.$message({
