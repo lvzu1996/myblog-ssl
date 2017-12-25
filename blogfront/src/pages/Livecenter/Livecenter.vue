@@ -48,8 +48,8 @@
                         <span class="ssi-owner">{{item.owner_name}}</span>
                         <span class="ssi-cate">{{item.cate_name}}</span>
                         <span class="ssi-online">{{item.online}}</span>
-                    <!-- <img :src="douyulogo" class="ssi-logo" v-if="item.platform == 'douyu'">
-                    <img :src="pandalogo" class="ssi-logo" v-if="item.platform == 'panda'"> -->
+                    <img src="http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/douyusmalllog.png" class="ssi-logo" v-if="item.platform == 'douyu'">
+                    <img src="http://lvzu-imgs.oss-cn-hangzhou.aliyuncs.com/logos/pandasmalllogo.png" class="ssi-logo" v-if="item.platform == 'panda'">
                     </div>
                 </div>
             </div>
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import DB from '../../tools/db.js'
+import DB from '../../tools/db.js' 
 export default {
     data(){
         return {
@@ -116,8 +116,7 @@ export default {
                 link:'',
                 platform:'',
             }],
-            // pandalogo,
-            // douyulogo,
+         
         }
     },
 
