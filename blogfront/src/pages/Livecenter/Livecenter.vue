@@ -128,6 +128,7 @@ export default {
          if(this.$route.query.list ==1 ){
              this.modes = false
              _this.__getSubscribeData()
+             localStorage.lastGetDataTime =  (new Date()).valueOf(); 
          }
          
     },
@@ -144,13 +145,13 @@ export default {
             // 检测cookie登录状态，若有发送请求，获取list
             if(this.modes == false){
 
-                if(localStorage.lastSwitch){
-                    if(parseInt(localStorage.lastSwitch) + 60*1000 < (new Date()).valueOf()){
+                if(localStorage.lastGetDataTime){
+                    if(parseInt(localStorage.lastGetDataTime) + 60*1000 < (new Date()).valueOf()){
                          _this.__getSubscribeData()
-                         localStorage.lastSwitch =  (new Date()).valueOf(); 
+                         localStorage.lastGetDataTime =  (new Date()).valueOf(); 
                     }
                 }else{
-                    localStorage.lastSwitch =  (new Date()).valueOf(); 
+                    localStorage.lastGetDataTime =  (new Date()).valueOf(); 
                     _this.__getSubscribeData()
                 }
                
@@ -217,14 +218,15 @@ export default {
                         _this.$router.push({ path:'/livecenter?list=1' })
                         _this.$message({
                             showClose: true,
-                            message: '订阅成功~',
+                            message: '订阅成功~即将重新获取订阅列表',
                             type: 'success',
-                            duration:'1300'
+                            duration:'1500',
+                            onClose:_this.__getSubscribeData()
                         });
                         // setTimeout(() => {
                         //     _this.$router.go(0)
                         // },1500)
-                        _this.__getSubscribeData()
+                        
                     },  
                 re => {
                     _this.roomnumber = ''

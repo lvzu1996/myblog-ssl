@@ -1,5 +1,5 @@
 <template>
-  <div id="Test" v-loading.fullscreen.lock="fullscreenLoading">>
+  <div id="Test">
     <div>{{tel|formatPhone}}</div>
     <input v-mybind />
     <input v-lvclick />
@@ -28,7 +28,16 @@ export default {
       return tel;
     }
   },
-
+  beforeMount:function(){
+    const _this = this
+    _this.$message({
+        showClose: true,
+        message: '订阅成功~即将重新获取订阅列表',
+        type: 'success',
+        duration:'1500',
+        onClose:_this._test()
+    });
+  },
   directives:{
     mybind:{
         bind:function (el) {
@@ -41,6 +50,11 @@ export default {
           console.log(el.value);
         }
       }
+    },
+  },
+  methods:{
+    _test(){
+      console.log(1)
     },
   }
 }
