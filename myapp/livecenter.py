@@ -67,8 +67,8 @@ def getPandaRoomInfo(room_number):
 def getAllRoomInfo(roomArr):
     returnArr = []
     for i in roomArr:
-        print '******************'
-        print i
+        # print '******************'
+        # print i
         tvname = i['fields']['tvname']
         roomnumber = i['fields']['roomnumber']
         if(str(tvname) == 'panda'):

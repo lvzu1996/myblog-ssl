@@ -27,7 +27,6 @@
                 </div>
             </div> 
         </transition>
-
         <div v-show="!modes" id="subscribes">
             <div id="tv-s">
                 <el-select v-model="tvname" placeholder="直播平台" id="tv-selector">
@@ -124,6 +123,14 @@ export default {
 
     beforeMount:function(){
         const _this = this
+        console.log(localStorage._lc_visited)
+        if(!localStorage._lc_visited && !_this.modes){
+            _this.$alert('订阅列表只显示在线主播 -v-', '使用提示', {
+              confirmButtonText: '收到~~',
+            });
+            localStorage._lc_visited = true
+        }
+ 
         //  $('#livecenter').css('height',$(window).height())
          if(this.$route.query.list ==1 ){
              this.modes = false
@@ -203,9 +210,20 @@ export default {
                 _this.$message({
                             showClose: true,
                             message: '选择平台并输入房间号！',
-                            type: 'error!',
+                            type: 'error',
                             duration:'1300'
                         });
+                    return
+            }
+            if(!(_this.tvname == 'panda' || _this.tvname == 'douyu')){
+                 _this.$message({
+                            showClose: true,
+                            message: '订阅暂时只支持熊猫和斗鱼，后续会陆续增加其他平台，敬请期待',
+                            type: 'warning',
+                            duration:'1300'
+                        });
+                    _this.tvname = ''
+                    _this.roomnumber = ''
                     return
             }
             DB.api.livecenterSubscribe({
@@ -264,7 +282,13 @@ export default {
 
             }).then(
                 re => {
-                    _this.subscribeListData = re
+                    _this.subscribeListData = []
+                    for(let i in re){
+                        if(i != -1){
+                            _this.subscribeListData.push(re[i])
+                        }
+                    }
+                    // _this.subscribeListData = re
                     _this.fullscreenLoading = false
                     _this.canSwitch = true
                 },re =>{
