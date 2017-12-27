@@ -33,7 +33,7 @@ def getPandaRoomInfo(room_number):
     returnObj = {}
     flag = False
     tempData = {}
-    for i in range(0,5):
+    for i in range(0,1):
         if(flag):
             break
         url = panda + str(i)
@@ -61,7 +61,7 @@ def getPandaRoomInfo(room_number):
     else:
         return -1
                 
-# print getPandaRoomInfo(181861)
+print getPandaRoomInfo(181861)
 # print getDouyuRoomInfo(123456)
 
 def getAllRoomInfo(roomArr):
