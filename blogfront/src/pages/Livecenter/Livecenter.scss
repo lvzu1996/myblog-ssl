@@ -125,6 +125,10 @@
     position: absolute;
     top: 10px;
     left: 10px;
+    max-width: 70%;
+    overflow:hidden; 
+    white-space:nowrap;
+    text-overflow:ellipsis;
 }
 
 .ssi-owner {

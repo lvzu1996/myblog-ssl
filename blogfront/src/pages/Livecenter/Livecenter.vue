@@ -14,6 +14,7 @@
         inactive-text="个人订阅"
         width="80"
         inactive-color="#FA8E93"
+        :disabled = "!canSwitch"
         style="margin-top:50px;margin-left:-100px;">
         </el-switch>
 
@@ -40,7 +41,7 @@
                 <el-input v-model="roomnumber" placeholder="请输入房间后缀"></el-input>
                 <el-button type="primary" @click="_subscribe">添加订阅主播</el-button>
             </div>
-            <div id="subscribe-list">
+            <div id="subscribe-list" v-loading.fullscreen.lock="fullscreenLoading&&!modes" element-loading-text="正在加载订阅列表">
                 <div class="single-subscribe" v-for="(item,index) in subscribeListData" :key="index" @click="_jumpTo(item.link)">
                     <img :src="item.room_thumb" alt="">
                     <div class="single-subscribe-infos">
@@ -116,7 +117,8 @@ export default {
                 link:'',
                 platform:'',
             }],
-         
+            fullscreenLoading:true,
+            canSwitch:true,
         }
     },
 
@@ -125,17 +127,7 @@ export default {
         //  $('#livecenter').css('height',$(window).height())
          if(this.$route.query.list ==1 ){
              this.modes = false
-         }
-         if(this.$route.query.lctk_key){
-             var _lctk_key = this.$route.query.lctk_key
-             DB.api.getSubscribeList({
-                 lctk_key:_lctk_key
-             }).then(
-                 re => {
-                     _this.subscribeListData = re
-                 },
-                 () => {}
-             )
+             _this.__getSubscribeData()
          }
          
     },
@@ -151,14 +143,131 @@ export default {
             const _this = this
             // 检测cookie登录状态，若有发送请求，获取list
             if(this.modes == false){
-                DB.api.livecenterLogin({
-                    username:'',
-                    password:'',
-                    type:'1'
-                })
-                .then(re => {
-                   _this.subscribeListData = re
+
+                if(localStorage.lastSwitch){
+                    if(parseInt(localStorage.lastSwitch) + 60*1000 < (new Date()).valueOf()){
+                         _this.__getSubscribeData()
+                         localStorage.lastSwitch =  (new Date()).valueOf(); 
+                    }
+                }else{
+                    localStorage.lastSwitch =  (new Date()).valueOf(); 
+                    _this.__getSubscribeData()
+                }
+               
+                // DB.api.livecenterLogin({
+                //     username:'',
+                //     password:'',
+                //     type:'1'
+                // })
+                // .then(re => {
+                //    _this.subscribeListData = re
+                // },re =>{
+                //     if(re.msg == 'need login'){
+                //         this.$message({
+                //             showClose: true,
+                //             message: '使用订阅功能请先登录',
+                //             type: 'error',
+                //             duration:'1300'
+                //         });
+                //         setTimeout(()=>{
+                //             this.$router.push('/register')
+                //         },1500)
+                //     }
+                //     else if(re.msg == 'expired'){
+                //         this.$message({
+                //             showClose: true,
+                //             message: '登录状态过期请重新登录',
+                //             type: 'error',
+                //             duration:'1300'
+                //         });
+                //         setTimeout(()=>{
+                //             this.$router.push('/register')
+                //         },1500)
+                //     }
+                // })
+            }
+        },
+        _subscribe(){
+            const _this = this
+            if(_this.roomnumber == ''){
+                this.$message({
+                    showClose: true,
+                    message: '请输入正确的房间号',
+                    type: 'error',
+                    duration:'1300'
+                });
+                return 
+            }
+            if(_this.tvname == '' || _this.roomnumber == ''){
+                _this.$message({
+                            showClose: true,
+                            message: '选择平台并输入房间号！',
+                            type: 'error!',
+                            duration:'1300'
+                        });
+                    return
+            }
+            DB.api.livecenterSubscribe({
+                tvname:_this.tvname,
+                roomnumber:_this.roomnumber
+            })
+            .then(
+                re => {
+                        _this.roomnumber = ''
+                        _this.$router.push({ path:'/livecenter?list=1' })
+                        _this.$message({
+                            showClose: true,
+                            message: '订阅成功~',
+                            type: 'success',
+                            duration:'1300'
+                        });
+                        // setTimeout(() => {
+                        //     _this.$router.go(0)
+                        // },1500)
+                        _this.__getSubscribeData()
+                    },  
+                re => {
+                    _this.roomnumber = ''
+                    if(re.msg == 'subscribed'){
+                        _this.$message({
+                            showClose: true,
+                            message: '此房间已订阅~',
+                            type: 'warning',
+                            duration:'1300'
+                        });
+                    }
+                    else{
+                        _this.$message({
+                            showClose: true,
+                            message: '登录状态过期请重新登录',
+                            type: 'error',
+                            duration:'1300'
+                        });
+                         setTimeout(()=>{
+                            _this.$router.push('/register')
+                        },1500)
+                    }
+                }
+                
+            )
+        },
+        _jumpTo(url){
+            window.location.href=url
+        },
+        __getSubscribeData(){
+            const _this = this
+            _this.canSwitch = false
+            _this.fullscreenLoading = true
+            DB.api.getSubscribeList({
+
+            }).then(
+                re => {
+                    _this.subscribeListData = re
+                    _this.fullscreenLoading = false
+                    _this.canSwitch = true
                 },re =>{
+                    _this.fullscreenLoading = false
+                    _this.canSwitch = true
                     if(re.msg == 'need login'){
                         this.$message({
                             showClose: true,
@@ -181,50 +290,8 @@ export default {
                             this.$router.push('/register')
                         },1500)
                     }
-                })
-            }else{
-
-            }
-        },
-        _subscribe(){
-            const _this = this
-            if(_this.roomnumber == ''){
-                this.$message({
-                    showClose: true,
-                    message: '请输入正确的房间号',
-                    type: 'error',
-                    duration:'1300'
-                });
-                return 
-            }
-            DB.api.livecenterSubscribe({
-                tvname:_this.tvname,
-                roomnumber:_this.roomnumber
-            })
-            .then(
-                re => {
-                        _this.roomnumber = ''
-                        _this.$router.push({ path:`/livecenter?list=1&lctk_key=${re}` })
-                        setTimeout(() => {
-                            _this.$router.go(0)
-                        },500)
-                    },  
-                re => {
-                    _this.$message({
-                            showClose: true,
-                            message: '登录状态过期请重新登录',
-                            type: 'error',
-                            duration:'1300'
-                        });
-                         setTimeout(()=>{
-                            _this.$router.push('/register')
-                        },1500)
                 }
-                
             )
-        },
-        _jumpTo(url){
-            window.location.href=url
         },
     },
 }

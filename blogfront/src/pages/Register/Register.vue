@@ -190,7 +190,7 @@ export default {
             });
             localStorage.username = t.log_username
             setTimeout(function () {
-                t.$router.push({ path:`/livecenter?list=1&lctk_key=${re}` })
+                t.$router.push({ path:'/livecenter?list=1' })
             },2500)
 
             return

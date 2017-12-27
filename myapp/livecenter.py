@@ -13,16 +13,19 @@ def getDouyuRoomInfo(room_number):
     res_data = urllib2.urlopen(req)
     res = res_data.read()
     data = json.loads(res)
-    room_status = data['data']['room_status']
-    if(int(room_status) == 1):
-        returnObj['room_thumb'] = data['data']['room_thumb']
-        returnObj['owner_name'] = data['data']['owner_name']
-        returnObj['room_name'] = data['data']['room_name']
-        returnObj['online'] = data['data']['online']
-        returnObj['cate_name'] = data['data']['cate_name']
-        returnObj['link'] = 'https://www.douyu.com/' + data['data']['room_id']
-        returnObj['platform'] = 'douyu'
-        return returnObj
+    if(data['error'] == 0):
+        room_status = data['data']['room_status']
+        if(int(room_status) == 1):
+            returnObj['room_thumb'] = data['data']['room_thumb']
+            returnObj['owner_name'] = data['data']['owner_name']
+            returnObj['room_name'] = data['data']['room_name']
+            returnObj['online'] = data['data']['online']
+            returnObj['cate_name'] = data['data']['cate_name']
+            returnObj['link'] = 'https://www.douyu.com/' + data['data']['room_id']
+            returnObj['platform'] = 'douyu'
+            return returnObj
+        else:
+            return -1
     else:
         return -1
     
@@ -30,7 +33,7 @@ def getPandaRoomInfo(room_number):
     returnObj = {}
     flag = False
     tempData = {}
-    for i in range(0,10):
+    for i in range(0,5):
         if(flag):
             break
         url = panda + str(i)
@@ -41,7 +44,7 @@ def getPandaRoomInfo(room_number):
         data = json.loads(res)
         infoArr = data['showapi_res_body']['data']
         for i in infoArr:
-            if(int(i['id']) == int(room_number)):
+            if(str(i['id']) == str(room_number)):
                 flag = True
                 tempData = i
                 break
@@ -58,17 +61,28 @@ def getPandaRoomInfo(room_number):
     else:
         return -1
                 
-# print getPandaRoomInfo(599532)
-# print getDouyuRoomInfo(2267291)
+# print getPandaRoomInfo(181861)
+# print getDouyuRoomInfo(123456)
 
 def getAllRoomInfo(roomArr):
     returnArr = []
     for i in roomArr:
+        print '******************'
+        print i
         tvname = i['fields']['tvname']
         roomnumber = i['fields']['roomnumber']
         if(str(tvname) == 'panda'):
-            returnArr.append(getPandaRoomInfo(roomnumber))
+            try:
+                tempRoomInfo = getPandaRoomInfo(roomnumber)
+                returnArr.append(tempRoomInfo)
+            except Exception,e:
+                print e
         if(str(tvname) == 'douyu'):
-            returnArr.append(getDouyuRoomInfo(roomnumber))
+            try:
+                tempRoomInfo = getDouyuRoomInfo(roomnumber)
+                returnArr.append(tempRoomInfo)
+            except Exception,e:
+                print e
     return returnArr
+
     

@@ -274,84 +274,82 @@ def livecenter_login(request):
     _password = request.POST['password']
     jsonRes = {}
 
-    if request.POST['type'] == '1':
-        if '_lc_k' in request.COOKIES and '_lc_v' in request.COOKIES:
-            __lc_k = request.COOKIES['_lc_k']
-            __lc_v = request.COOKIES['_lc_v']
-            try:
-                hasSession = LiveCenterSession.objects.get(session_key=__lc_k)
-                if(hasSession):
-                    if(hasSession.session_value==__lc_v and hasSession.expire>time.time()):
-                        list = Subscribe.objects.filter(userid=hasSession.userid)
-                        list = json.loads(serializers.serialize("json", list))
-                        jsonRes['msg'] = 'success'
-                        jsonRes['data'] = getAllRoomInfo(list)
-                        jsonRes['error_num'] = 0
-                        response.write(json.dumps(jsonRes))
-                        return response
-                    else:
-                        hasSession.delete()
-                        jsonRes['msg'] = 'expired'
-                        jsonRes['error_num'] = 1
-                        response.write(json.dumps(jsonRes))
-                        return response
+    # if request.POST['type'] == '1':
+    #     if '_lc_k' in request.COOKIES and '_lc_v' in request.COOKIES:
+    #         __lc_k = request.COOKIES['_lc_k']
+    #         __lc_v = request.COOKIES['_lc_v']
+    #         try:
+    #             hasSession = LiveCenterSession.objects.get(session_key=__lc_k)
+    #             if(hasSession.session_value==__lc_v and hasSession.expire>time.time()):
+    #                 # list = Subscribe.objects.filter(userid=hasSession.userid)
+    #                 # list = json.loads(serializers.serialize("json", list))
+    #                 jsonRes['msg'] = 'success'
+    #                 jsonRes['data'] = []
+    #                 jsonRes['error_num'] = 0
+    #                 response.write(json.dumps(jsonRes))
+    #                 return response
+    #             else:
+    #                 hasSession.delete()
+    #                 jsonRes['msg'] = 'expired'
+    #                 jsonRes['error_num'] = 1
+    #                 response.write(json.dumps(jsonRes))
+    #                 return response
                
-            except Exception,e:
-                pass
+    #         except Exception,e:
+    #             jsonRes['msg'] = 'need login'
+    #             jsonRes['error_num'] = 1
+    #             response.write(json.dumps(jsonRes))
+    #             return response
 
-        jsonRes['msg'] = 'need login'
-        jsonRes['error_num'] = 1
-        response.write(json.dumps(jsonRes))
-        return response
+    #     else:
+    #         jsonRes['msg'] = 'need login'
+    #         jsonRes['error_num'] = 1
+    #         response.write(json.dumps(jsonRes))
+    #         return response
 
-    else:
-        try:
-            hasAccount = LiveCenterAccounts.objects.get(username=_username)
-            if(hasAccount):
-                if(hasAccount.password==hashlib.sha1(_password+_username).hexdigest()):
-                    try:
-                        hasSession = LiveCenterSession.objects.get(userid=hasAccount.id)
-                        if(hasSession):
-                            hasSession.delete()
-                    except Exception,e:
-                        pass
+    # else:
+    try:
+        hasAccount = LiveCenterAccounts.objects.get(username=_username)
+        if(hasAccount):
+            if(hasAccount.password==hashlib.sha1(_password+_username).hexdigest()):
+                try:
+                    hasSession = LiveCenterSession.objects.get(userid=hasAccount.id)
+                    if(hasSession):
+                        hasSession.delete()
+                except Exception,e:
+                    pass
 
-                    now = int(time.time())
-                    senvendays = now+7*24*60*60
-                    
-                    session_key=request.POST['username']
-                    session_value=hashlib.sha1(session_key+str(now)).hexdigest()
-                    liveCenterSession = LiveCenterSession(userid=hasAccount.id,session_key=session_key,session_value=session_value,expire=senvendays)
-                    liveCenterSession.save()
-                    response.set_cookie('_lc_k',session_key,7*24*60*60)
-                    response.set_cookie('_lc_v',session_value,7*24*60*60)
-                    lctk_key = hashlib.sha1(str(now)).hexdigest()
+                now = int(time.time())
+                senvendays = now+7*24*60*60
+                
+                session_key=request.POST['username']
+                session_value=hashlib.sha1(session_key+str(now)).hexdigest()
+                liveCenterSession = LiveCenterSession(userid=hasAccount.id,session_key=session_key,session_value=session_value,expire=senvendays)
+                liveCenterSession.save()
+                response.set_cookie('_lc_k',session_key,7*24*60*60)
+                response.set_cookie('_lc_v',session_value,7*24*60*60)
 
-                    onehour = now+60*60
-                    liveCenterTempKeyIdTrans = LiveCenterTempKeyIdTrans(userid=hasAccount.id,key=lctk_key,expire=int(onehour))
-                    liveCenterTempKeyIdTrans.save()
-
-                    jsonRes['msg'] = 'success'
-                    jsonRes['data'] = lctk_key
-                    jsonRes['error_num'] = 0
-                    
-                    response.write(json.dumps(jsonRes))
-                    return response
-
-                jsonRes['msg'] = 'passwordError'
-                jsonRes['error_num'] = 1
+                jsonRes['msg'] = 'success'
+                jsonRes['data'] = []
+                jsonRes['error_num'] = 0
                 
                 response.write(json.dumps(jsonRes))
                 return response
-                
 
-        except  Exception,e:
-            jsonRes['msg'] = 'notRegisterd'
+            jsonRes['msg'] = 'passwordError'
             jsonRes['error_num'] = 1
             
             response.write(json.dumps(jsonRes))
-            return response  
+            return response
+            
+
+    except  Exception,e:
+        jsonRes['msg'] = 'notRegisterd'
+        jsonRes['error_num'] = 1
         
+        response.write(json.dumps(jsonRes))
+        return response  
+    
 
 @csrf_protect
 @csrf_exempt
@@ -400,53 +398,76 @@ def livecenter_subscribe(request):
         _tvname = request.GET.get('tvname')
         try:
             hasSession = LiveCenterSession.objects.get(session_key=__lc_k)
-            if(hasSession):
-                if(hasSession.session_value==__lc_v and hasSession.expire>time.time()):
-                    subscribe = Subscribe(userid=hasSession.userid,tvname=_tvname,roomnumber=_roomnumber)
-                    subscribe.save()
-                    now = time.time()
-                    lctk_key = hashlib.sha1(str(now)).hexdigest()
-                    onehour = now + 60 * 60
-                    liveCenterTempKeyIdTrans = LiveCenterTempKeyIdTrans(userid=hasSession.userid, key=lctk_key, expire=int(onehour))
-                    liveCenterTempKeyIdTrans.save()
-                    response['data'] = lctk_key
-                    response['msg'] = 'success'
+            if(hasSession.session_value==__lc_v and hasSession.expire>time.time()):
+                try:
+                    hasSubscribe = Subscribe.objects.get(userid=hasSession.userid,tvname=_tvname,roomnumber=_roomnumber)
+                    response['data'] = []
+                    response['msg'] = 'subscribed'
                     response['error_num'] = 0
                     return JsonResponse(response)
-                else:
-                    hasSession.delete()
-                    response['msg'] = 'need login'
-                    response['error_num'] = 1
-                    return JsonResponse(response)
+                except Exception,e:
+                    if(_tvname == '' or _roomnumber == ''):
+                        response['data'] = []
+                        response['msg'] = 'fail'
+                        response['error_num'] = 0
+                        return JsonResponse(response)
+                    else:
+                        subscribe = Subscribe(userid=hasSession.userid,tvname=_tvname,roomnumber=_roomnumber)
+                        subscribe.save()
+                        response['data'] = []
+                        response['msg'] = 'success'
+                        response['error_num'] = 0
+                        return JsonResponse(response)
+            else:
+                hasSession.delete()
+                response['msg'] = 'need login'
+                response['error_num'] = 1
+                return JsonResponse(response)
 
         except Exception,e:
-            pass
+            response['msg'] = 'need login'
+            response['error_num'] = 1
+            return JsonResponse(response)
 
-    response['msg'] = 'need login'
-    response['error_num'] = 1
-    return JsonResponse(response)
+    
     
 @csrf_protect
 @csrf_exempt
 @require_http_methods(["GET"])
 def livecenter_getSubscribeList(request):
-    response = {}
-    try:
-        lctk_key = request.GET.get('lctk_key')
-        hasLctk = LiveCenterTempKeyIdTrans.objects.get(key=lctk_key)
-        if(hasLctk):
-            list = Subscribe.objects.filter(userid=hasLctk.userid)
-            list = json.loads(serializers.serialize("json", list))
-            response['msg'] = 'success'
-            response['data'] = getAllRoomInfo(list)
-            response['error_num'] = 0
-            return JsonResponse(response)
-            
-    except  Exception,e:
-        response['msg'] = str(e)
-        response['error_num'] = 1
+    response = HttpResponse(content_type='application/json')
+    jsonRes = {}
+    if '_lc_k' in request.COOKIES and '_lc_v' in request.COOKIES:
+        __lc_k = request.COOKIES['_lc_k']
+        __lc_v = request.COOKIES['_lc_v']
+        try:
+            hasSession = LiveCenterSession.objects.get(session_key=__lc_k)
+            if(hasSession.session_value==__lc_v and hasSession.expire>time.time()):
+                list = Subscribe.objects.filter(userid=hasSession.userid)
+                list = json.loads(serializers.serialize("json", list))
+                jsonRes['msg'] = 'success'
+                jsonRes['data'] = getAllRoomInfo(list)
+                jsonRes['error_num'] = 0
+                response.write(json.dumps(jsonRes))
+                return response
+            else:
+                hasSession.delete()
+                jsonRes['msg'] = 'expired'
+                jsonRes['error_num'] = 1
+                response.write(json.dumps(jsonRes))
+                return response
+           
+        except Exception,e:
+            jsonRes['msg'] = 'need login'
+            jsonRes['error_num'] = 1
+            response.write(json.dumps(jsonRes))
+            return response
+    else:
+        jsonRes['msg'] = 'need login'
+        jsonRes['error_num'] = 1
+        response.write(json.dumps(jsonRes))
+        return response
 
-    return JsonResponse(response)
 
 
 @require_http_methods(["GET"])

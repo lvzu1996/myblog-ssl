@@ -1,5 +1,5 @@
 <template>
-  <div id="Test">
+  <div id="Test" v-loading.fullscreen.lock="fullscreenLoading">>
     <div>{{tel|formatPhone}}</div>
     <input v-mybind />
     <input v-lvclick />
@@ -15,6 +15,7 @@ export default {
   data(){
     return{
       tel:13777821015,
+      fullscreenLoading:true
     }
   },
 
