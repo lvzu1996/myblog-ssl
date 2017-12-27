@@ -37,7 +37,7 @@
                     :value="item.value">
                     </el-option>
                 </el-select>
-                <el-input v-model="roomnumber" placeholder="请输入房间后缀"></el-input>
+                <el-input v-model="roomnumber" placeholder="请输入房间号"></el-input>
                 <el-button type="primary" @click="_subscribe">添加订阅主播</el-button>
             </div>
             <div id="subscribe-list" v-loading.fullscreen.lock="fullscreenLoading&&!modes" element-loading-text="正在加载订阅列表">
@@ -238,13 +238,14 @@ export default {
                             showClose: true,
                             message: '订阅成功~即将重新获取订阅列表',
                             type: 'success',
-                            duration:'1500',
-                            onClose:_this.__getSubscribeData()
+                            duration:'1300',
                         });
                         // setTimeout(() => {
                         //     _this.$router.go(0)
                         // },1500)
-                        
+                        setTimeout(() => {
+                            _this.__getSubscribeData()
+                        },1200)
                     },  
                 re => {
                     _this.roomnumber = ''
@@ -284,7 +285,7 @@ export default {
                 re => {
                     _this.subscribeListData = []
                     for(let i in re){
-                        if(i != -1){
+                        if(re[i] != -1){
                             _this.subscribeListData.push(re[i])
                         }
                     }

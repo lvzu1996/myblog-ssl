@@ -29,13 +29,13 @@ export default {
     }
   },
   beforeMount:function(){
-    console.log(localStorage.lcVisited)
-    if(!localStorage.lcVisited){
-            this.$alert('订阅列表只显示在线主播 -v-', '使用提示', {
-              confirmButtonText: '收到~~',
-            });
-            localStorage.lcVisited = true
-        }
+     this.$message({
+        showClose: true,
+        message: '订阅成功~即将重新获取订阅列表',
+        type: 'success',
+        duration:'5000',
+        onClose:() => {alert('hahahah')}
+    });
 
   },
   directives:{

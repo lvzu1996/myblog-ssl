@@ -234,7 +234,7 @@ export default {
       setTimeout(function() {
         t.Vcode = myTools._generateVCode()
         t.register_verifycode = t.Vcode
-      }, 1000)
+      }, 500)
     },
     _register: function() {
       const t = this
