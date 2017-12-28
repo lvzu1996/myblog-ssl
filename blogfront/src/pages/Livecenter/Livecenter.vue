@@ -273,7 +273,8 @@ export default {
             )
         },
         _jumpTo(url){
-            window.location.href=url
+            // window.location.href=url
+            window.open(url);
         },
         __getSubscribeData(){
             const _this = this

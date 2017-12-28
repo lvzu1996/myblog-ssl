@@ -61,7 +61,7 @@ def getPandaRoomInfo(room_number):
     else:
         return -1
                 
-print getPandaRoomInfo(181861)
+# print getPandaRoomInfo(181861)
 # print getDouyuRoomInfo(123456)
 
 def getAllRoomInfo(roomArr):

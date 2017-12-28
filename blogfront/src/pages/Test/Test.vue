@@ -8,6 +8,7 @@
 </template>
 <script>
 
+import DB from '../../tools/db.js' 
 
 export default {
   name: "Test",
@@ -29,14 +30,10 @@ export default {
     }
   },
   beforeMount:function(){
-     this.$message({
-        showClose: true,
-        message: '订阅成功~即将重新获取订阅列表',
-        type: 'success',
-        duration:'5000',
-        onClose:() => {alert('hahahah')}
-    });
+     var test = DB.api.getSubscribeList({
 
+            }).then(() => {},() => {});
+            
   },
   directives:{
     mybind:{
