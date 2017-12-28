@@ -61,7 +61,7 @@ var _routes = [
   },
   {
     path:'/phonemsg',
-    name:'直播中心',
+    name:'手机提示',
     component:Phonemsg
   },
   {
