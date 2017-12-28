@@ -23,6 +23,7 @@ const Lvzu = () => import('@/pages/Lvzu/Lvzu')
 const Test = () => import('@/pages/Test/Test')
 const DetailInfo = () => import('@/pages/DetailInfo/DetailInfo')
 const Livecenter = () => import('@/pages/Livecenter/Livecenter')
+const Phonemsg = () => import('@/pages/Phonemsg/Phonemsg')
 const errorPage = () => import('@/pages/404.vue')
 
 Vue.use(Router)
@@ -57,6 +58,11 @@ var _routes = [
     path:'/livecenter',
     name:'直播中心',
     component:Livecenter
+  },
+  {
+    path:'/phonemsg',
+    name:'直播中心',
+    component:Phonemsg
   },
   {
     path:'/about-me',
