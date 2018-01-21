@@ -28,7 +28,7 @@
         </div>
       </transition>
         <div v-if="show_choices" class="choices move-lvzu">
-          <a href="#/register">Sign up & Login</a>
+          <a href="#/livecenter">Live Center</a>
           <span>|</span>
           <span class="comment-button" @click='_chat'>&nbspChat&nbsp&nbsp</span>
           <span>|</span>
