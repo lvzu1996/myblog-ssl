@@ -36,7 +36,7 @@ var _routes = [
   },
   {
     path:'/',
-    name:'WE电子竞技俱乐部',
+    name:'welcome',
     component : Home
   },
   {
